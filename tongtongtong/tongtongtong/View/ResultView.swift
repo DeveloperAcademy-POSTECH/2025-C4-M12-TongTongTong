@@ -9,37 +9,60 @@ import SwiftUI
 import AVFoundation
 
 struct ResultView: View {
+    @State private var overlayOffsetX: CGFloat = 190
+    @State private var overlayOpacity: Double = 0.8
+
     var body: some View {
         ZStack {
-            VStack(spacing: UIConstants.mainSpacing) {
-                Spacer().frame(height: UIConstants.splashTopMargin)
-                Text("과즙 분석중...")
-                    .font(.system(size: UIConstants.resultFontSize, weight: .bold))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 280, height: 280)
-                        .background(
-                            Image("WholeWatermelon")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 600, height: 600)
-                                .clipped()
-                                .offset(y: 110)
-                                .offset(x: 160)
-                        )
-                        .overlay(
-                            Circle()
-                                .fill(Color.black.opacity(0.8))
-                                .frame(width: 490, height: 1000)
-                                .offset(x: 190, y: 110)
-                                .blur(radius: 10)
-                        )
-                        .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
+            ZStack {
+                VStack(spacing: UIConstants.mainSpacing) {
+                    Spacer().frame(height: UIConstants.splashTopMargin)
+                    Text("과즙 분석중...")
+                        .font(.system(size: UIConstants.resultFontSize, weight: .bold))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 280, height: 280)
+                            .background(
+                                Image("WholeWatermelon")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 600, height: 600)
+                                    .clipped()
+                                    .offset(y: 110)
+                                    .offset(x: 160)
+                            )
+                            .overlay(
+                                Circle()
+                                    .fill(Color.black.opacity(overlayOpacity))
+                                    .frame(width: 490, height: 1000)
+                                    .offset(x: overlayOffsetX, y: 110)
+                                    .blur(radius: 10)
+                                    .onAppear {
+                                        withAnimation(.easeOut(duration: 3.0)) {
+                                            overlayOffsetX += 200
+                                            overlayOpacity = 0
+                                        }
+                                    }
+                            )
+                            .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
+                    }
+                    Spacer()
                 }
-                Spacer()
+            }
+
+            ZStack {
+                StarView(imageName: "Star", size: CGSize(width: 20, height: 20), offset: CGSize(width: -80, height: -200))
+                StarView(imageName: "Star", size: CGSize(width: 60, height: 60), offset: CGSize(width: -100, height: -150))
+                StarView(imageName: "Star", size: CGSize(width: 20, height: 20), offset: CGSize(width: -100, height: -100))
+                StarView(imageName: "Star", size: CGSize(width: 60, height: 60), offset: CGSize(width: -120, height: 30))
+                StarView(imageName: "Star", size: CGSize(width: 30, height: 30), offset: CGSize(width: -100, height: 180))
+                StarView(imageName: "Star", size: CGSize(width: 60, height: 60), offset: CGSize(width: -80, height: 200))
+                StarView(imageName: "Star", size: CGSize(width: 30, height: 30), offset: CGSize(width: -40, height: 280))
+                StarView(imageName: "Star", size: CGSize(width: 40, height: 40), offset: CGSize(width: 30, height: 300))
             }
         }
         .frame(width: 394, height: 852)
@@ -60,4 +83,25 @@ struct ResultView: View {
 
 #Preview {
     ResultView()
+}
+
+struct StarView: View {
+    var imageName: String
+    var size: CGSize
+    var offset: CGSize
+
+    @State private var opacity: Double = 1.0
+
+    var body: some View {
+        Image(imageName)
+            .resizable()
+            .frame(width: size.width, height: size.height)
+            .offset(x: offset.width, y: offset.height)
+            .opacity(opacity)
+            .onAppear {
+                withAnimation(.easeInOut(duration: Double.random(in: 1.0...2.0)).repeatForever(autoreverses: true)) {
+                    opacity = 0.2
+                }
+            }
+    }
 }
