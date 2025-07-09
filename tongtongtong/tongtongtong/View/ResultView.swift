@@ -32,11 +32,12 @@ struct ResultView: View {
                         )
                         .overlay(
                             Circle()
-                                .fill(Color.black.opacity(0.3))
-                                .frame(width: 490, height: 490)
-                                .offset(x: 200, y: 120) // to align the circle on top of the watermelon image
+                                .fill(Color.black.opacity(0.8))
+                                .frame(width: 490, height: 1000)
+                                .offset(x: 190, y: 110)
+                                .blur(radius: 10)
                         )
-                        .shadow(color: .white.opacity(0.8), radius: 60, x: 0, y: 0)
+                        .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
                 }
                 Spacer()
             }
