@@ -6,8 +6,13 @@ class AudioLevelMonitor: ObservableObject {
     private var timer: Timer?
     private let threshold: Float = AudioConstants.threshold
     var onLoudSound: (() -> Void)?
-    
+
     func startMonitoring() {
+        #if targetEnvironment(simulator)
+        print("Running in Simulator - skipping microphone setup.")
+        self.onLoudSound?() // Simulate mic trigger or do nothing
+        return
+        #endif
         let engine = AVAudioEngine()
         let inputNode = engine.inputNode
         let bus = AudioConstants.busIndex
@@ -30,10 +35,10 @@ class AudioLevelMonitor: ObservableObject {
             print("Audio engine start error: \(error)")
         }
     }
-    
+
     func stopMonitoring() {
         audioEngine?.stop()
         audioEngine?.inputNode.removeTap(onBus: AudioConstants.busIndex)
         audioEngine = nil
     }
-} 
+}
