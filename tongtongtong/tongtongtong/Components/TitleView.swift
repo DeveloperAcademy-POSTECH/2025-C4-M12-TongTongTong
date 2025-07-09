@@ -22,7 +22,8 @@ struct TitleView: View {
                     }
                 }
             }
-            Text("수박을 두드려 주세요")
+            
+            Text("수박을 눌러 분석을 시작해주세요")
                 .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
                 .foregroundColor(.white)
         }

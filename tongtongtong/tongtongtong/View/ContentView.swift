@@ -9,21 +9,16 @@ import AVFoundation
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
-
-    // 프리뷰용 이니셜라이저는 필요 없다면 삭제해도 됩니다.
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                // MARK: - Wave Background
-                WaveBackgroundView(isRedBackground: viewModel.isRedBackground)
-                
                 // MARK: - Main Content
                 VStack {
                     Spacer().frame(height: UIConstants.topMargin)
                     TitleView()
                     Spacer()
-                    WatermelonView(isMicActive: viewModel.isMicActive) {
+                    WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
                         viewModel.showMicAlert = true
                     }
                     .alert("마이크를 켜시겠습니까?", isPresented: $viewModel.showMicAlert) {
@@ -50,8 +45,8 @@ struct ContentView: View {
                         .init(color: ColorConstants.redGradientStart, location: 0.00),
                         .init(color: ColorConstants.redGradientEnd, location: 1.00)
                     ] : [
-                        .init(color: ColorConstants.blueGradientStart, location: 0.00),
-                        .init(color: ColorConstants.blueGradientEnd, location: 1.00)
+                        .init(color: ColorConstants.greenGradientStart, location: 0.20),
+                        .init(color: ColorConstants.greenGradientEnd, location: 1.00)
                     ],
                     startPoint: UnitPoint(x: 0.5, y: 0),
                     endPoint: UnitPoint(x: 0.5, y: 1)

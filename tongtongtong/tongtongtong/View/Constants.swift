@@ -45,6 +45,10 @@ struct UIConstants {
 
 // MARK: - Color Constants
 struct ColorConstants {
+    // Green Theme
+    static let greenGradientStart = Color(red: 0.47, green: 0.59, blue: 0.24)
+    static let greenGradientEnd = Color(red: 0.24, green: 0.45, blue: 0.02)
+    
     // Blue Theme
     static let blueGradientStart = Color(red: 0.08, green: 0.58, blue: 0.9)
     static let blueGradientEnd = Color(red: 0.2, green: 0.81, blue: 1)
@@ -54,6 +58,11 @@ struct ColorConstants {
     static let redGradientEnd = Color(red: 1, green: 0.55, blue: 0.32)
     
     // Wave Colors
+    static let waveGreen1 = Color(red: 0.22, green: 0.52, blue: 0.12)
+    static let waveGreen2 = Color(red: 0.35, green: 0.66, blue: 0.20)
+    static let waveGreen3 = Color(red: 0.45, green: 0.78, blue: 0.28)
+    static let waveGreen4 = Color(red: 0.55, green: 0.86, blue: 0.36)
+    
     static let waveBlue1 = Color(red: 0.15, green: 0.65, blue: 0.95)
     static let waveBlue2 = Color(red: 0.10, green: 0.50, blue: 0.85)
     static let waveBlue3 = Color(red: 0.20, green: 0.81, blue: 1.0)
@@ -81,6 +90,13 @@ struct WaveCircleConfig {
     let delay: Double
     let opacity: Double
     
+    static let greenWaves: [WaveCircleConfig] = [
+        WaveCircleConfig(color: ColorConstants.waveGreen1, baseSize: 220, scale: 1.4, delay: 0.2, opacity: 0.6),
+        WaveCircleConfig(color: ColorConstants.waveGreen2, baseSize: 240, scale: 1.6, delay: 0.4, opacity: 0.5),
+        WaveCircleConfig(color: ColorConstants.waveGreen3, baseSize: 260, scale: 1.7, delay: 0.6, opacity: 0.4),
+        WaveCircleConfig(color: ColorConstants.waveGreen4, baseSize: 280, scale: 1.64, delay: 0.8, opacity: 0.3)
+    ]
+    
     static let blueWaves: [WaveCircleConfig] = [
         WaveCircleConfig(color: Color.white, baseSize: 240, scale: 1.6, delay: 0.0, opacity: 0.7),
         WaveCircleConfig(color: ColorConstants.waveBlue1, baseSize: 220, scale: 1.7, delay: 0.2, opacity: 0.6),
@@ -96,4 +112,4 @@ struct WaveCircleConfig {
         WaveCircleConfig(color: ColorConstants.waveRed4, baseSize: 260, scale: 1.5, delay: 0.6, opacity: 0.7),
         WaveCircleConfig(color: ColorConstants.waveRed5, baseSize: 280, scale: 1.4, delay: 0.8, opacity: 0.6)
     ]
-} 
+}
