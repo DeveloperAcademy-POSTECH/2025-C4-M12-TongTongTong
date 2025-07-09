@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 
 class ContentViewModel: ObservableObject {
-    @Published var highlightIndex = 2
+    @Published var highlightIndex = 0
     @Published var isRedBackground = false
     @Published var showMicAlert = false
     @Published var isMicActive = false
