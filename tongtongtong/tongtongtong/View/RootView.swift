@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RootView: View {
     @State private var showSplash = true
+    @State private var path = NavigationPath()
+
     var body: some View {
         if showSplash {
             SplashView()
@@ -20,7 +22,17 @@ struct RootView: View {
                     }
                 }
         } else {
-            ContentView()
+            NavigationStack(path: $path) {
+                ContentView(navigationPath: $path)
+                    .navigationDestination(for: Route.self) { route in
+                        switch route {
+                        case .analyzing(let isRed):
+                            AnalyzingView(isRedBackground: isRed, navigationPath: $path)
+                        case .result(let isRed):
+                            ResultView(isRedBackground: isRed, navigationPath: $path)
+                        }
+                    }
+            }
         }
     }
 }

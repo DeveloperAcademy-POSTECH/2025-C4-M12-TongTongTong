@@ -32,7 +32,7 @@ class ContentViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.micMonitoringDuration) {
             self.audioMonitor.stopMonitoring()
             self.isMicActive = false
-            self.isResultActive = true
+            self.isAnalyzingActive = true
         }
     }
 }
