@@ -13,7 +13,8 @@ class ContentViewModel: ObservableObject {
     @Published var isRedBackground = false
     @Published var showMicAlert = false
     @Published var isMicActive = false
-    @Published var isResultActive = false
+    @Published var isAnalyzingActive: Bool = false
+    @Published var isResultActive: Bool = false
 
     let indicatorCount = 3
     let audioMonitor = AudioLevelMonitor()

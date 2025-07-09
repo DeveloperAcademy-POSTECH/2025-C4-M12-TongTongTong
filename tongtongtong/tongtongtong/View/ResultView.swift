@@ -1,19 +1,15 @@
-//
-//  ContentView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
+
 
 import SwiftUI
-import AVFoundation
 
 struct ResultView: View {
+    var isRedBackground: Bool = false
+    
     var body: some View {
         ZStack {
             VStack(spacing: UIConstants.mainSpacing) {
                 Spacer().frame(height: UIConstants.splashTopMargin)
-                Text("과즙 분석중...")
+                Text("Analyzing...")
                     .font(.system(size: UIConstants.resultFontSize, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -38,21 +34,30 @@ struct ResultView: View {
         .frame(width: 394, height: 852)
         .background(
             LinearGradient(
-                stops: [
+                stops: isRedBackground ? [
+                    .init(color: ColorConstants.redGradientStart, location: 0.00),
+                    .init(color: ColorConstants.redGradientEnd, location: 1.00)
+                ] : [
                     .init(color: ColorConstants.blueGradientStart, location: 0.00),
                     .init(color: ColorConstants.blueGradientEnd, location: 1.00)
                 ],
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)
             )
+            .animation(.easeInOut(duration: UIConstants.backgroundAnimationDuration), value: isRedBackground)
         )
         .ignoresSafeArea()
     }
 }
 
 #Preview {
-    ResultView()
+    ResultView(isRedBackground: false)
 }
+
+
+
+
+
 
 
 

@@ -10,8 +10,6 @@ import AVFoundation
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
 
-    // 프리뷰용 이니셜라이저는 필요 없다면 삭제해도 됩니다.
-
     var body: some View {
         NavigationStack {
             ZStack {
@@ -39,7 +37,26 @@ struct ContentView: View {
                     Spacer().frame(height: UIConstants.bottomMargin)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                NavigationLink(destination: ResultView().navigationBarHidden(true), isActive: $viewModel.isResultActive) {
+                // MARK: - Navigation: AnalyzingView로 이동
+                NavigationLink(
+                    destination: AnalyzingView(isRedBackground: viewModel.isRedBackground)
+                        .navigationBarHidden(true),
+                    isActive: Binding(
+                        get: { viewModel.isAnalyzingActive },
+                        set: { viewModel.isAnalyzingActive = $0 }
+                    )
+                ) {
+                    EmptyView()
+                }
+                // MARK: - Navigation: ResultView로 이동
+                NavigationLink(
+                    destination: ResultView(isRedBackground: viewModel.isRedBackground)
+                        .navigationBarHidden(true),
+                    isActive: Binding(
+                        get: { viewModel.isResultActive },
+                        set: { viewModel.isResultActive = $0 }
+                    )
+                ) {
                     EmptyView()
                 }
             }
