@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 // MARK: - UI Constants
 struct UIConstants {
