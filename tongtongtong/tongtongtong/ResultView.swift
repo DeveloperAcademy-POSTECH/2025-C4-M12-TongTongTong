@@ -11,10 +11,10 @@ import AVFoundation
 struct ResultView: View {
     var body: some View {
         ZStack {
-            VStack(spacing: 45) {
-                Spacer().frame(height: 80)
+            VStack(spacing: UIConstants.mainSpacing) {
+                Spacer().frame(height: UIConstants.splashTopMargin)
                 Text("과즙 분석중...")
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.system(size: UIConstants.resultFontSize, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                 ZStack {
@@ -39,8 +39,8 @@ struct ResultView: View {
         .background(
             LinearGradient(
                 stops: [
-                    .init(color: Color(red: 0.08, green: 0.58, blue: 0.9), location: 0.00),
-                    .init(color: Color(red: 0.2, green: 0.81, blue: 1), location: 1.00)
+                    .init(color: ColorConstants.blueGradientStart, location: 0.00),
+                    .init(color: ColorConstants.blueGradientEnd, location: 1.00)
                 ],
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)

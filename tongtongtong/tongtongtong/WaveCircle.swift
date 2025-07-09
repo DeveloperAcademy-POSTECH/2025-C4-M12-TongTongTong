@@ -26,7 +26,7 @@ struct WaveCircle: View {
             .opacity(animate ? 0 : opacity)
             .offset(y: 0)
             .animation(
-                .easeOut(duration: 1.6)
+                .easeOut(duration: UIConstants.waveAnimationDuration)
                     .repeatForever(autoreverses: false)
                     .delay(delay),
                 value: animate

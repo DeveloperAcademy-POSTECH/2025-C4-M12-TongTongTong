@@ -1,10 +1,13 @@
 import SwiftUI
 
 struct SplashView: View {
+    // MARK: - Properties
     @State private var visibleIndex = 0
     @State private var isBouncing: [Bool] = [false, false, false]
-    let total = 3
-    let interval: TimeInterval = 0.3
+    
+    // MARK: - Constants
+    private let total = 3
+    private let interval: TimeInterval = UIConstants.splashInterval
 
     var body: some View {
         HStack(spacing: -8) {
@@ -12,11 +15,11 @@ struct SplashView: View {
                 VStack {
                     if idx < visibleIndex {
                         Circle()
-                            .frame(width: 8, height: 8)
+                            .frame(width: UIConstants.splashCircleSize, height: UIConstants.splashCircleSize)
                             .foregroundColor(.black)
                             .transition(.opacity)
                         Text("통")
-                            .font(.system(size: 34, weight: .bold))
+                            .font(.system(size: UIConstants.titleFontSize, weight: .bold))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                             .scaleEffect(isBouncing[idx] ? 1.3 : 1.0)
@@ -37,9 +40,9 @@ struct SplashView: View {
                         visibleIndex = i
                     }
                     // 통 튀는 효과
-                    DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i) + 0.05) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i) + UIConstants.bounceDelay) {
                         isBouncing[i-1] = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.bounceDuration) {
                             isBouncing[i-1] = false
                         }
                     }
