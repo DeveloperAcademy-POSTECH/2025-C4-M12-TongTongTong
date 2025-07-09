@@ -30,7 +30,13 @@ struct ResultView: View {
                                 .offset(y: 110)
                                 .offset(x: 160)
                         )
-                        .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
+                        .overlay(
+                            Circle()
+                                .fill(Color.black.opacity(0.3))
+                                .frame(width: 490, height: 490)
+                                .offset(x: 200, y: 120) // to align the circle on top of the watermelon image
+                        )
+                        .shadow(color: .white.opacity(0.8), radius: 60, x: 0, y: 0)
                 }
                 Spacer()
             }
@@ -39,8 +45,9 @@ struct ResultView: View {
         .background(
             LinearGradient(
                 stops: [
-                    .init(color: ColorConstants.blueGradientStart, location: 0.00),
-                    .init(color: ColorConstants.blueGradientEnd, location: 1.00)
+                    Gradient.Stop(color: Color(red: 0.18, green: 0.19, blue: 0.29), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.34, green: 0.33, blue: 0.47), location: 0.70),
+                    Gradient.Stop(color: Color(red: 0.43, green: 0.36, blue: 0.47), location: 1.00),
                 ],
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)
@@ -53,6 +60,3 @@ struct ResultView: View {
 #Preview {
     ResultView()
 }
-
-
-
