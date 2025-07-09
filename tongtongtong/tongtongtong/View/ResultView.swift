@@ -23,32 +23,39 @@ struct ResultView: View {
                         .multilineTextAlignment(.center)
 
                     ZStack {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 280, height: 280)
-                            .background(
-                                Image("WholeWatermelon")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 600, height: 600)
-                                    .clipped()
-                                    .offset(y: 110)
-                                    .offset(x: 160)
-                            )
-                            .overlay(
-                                Circle()
-                                    .fill(Color.black.opacity(overlayOpacity))
-                                    .frame(width: 490, height: 1000)
-                                    .offset(x: overlayOffsetX, y: 110)
-                                    .blur(radius: 10)
-                                    .onAppear {
-                                        withAnimation(.easeOut(duration: 3.0)) {
-                                            overlayOffsetX += 200
-                                            overlayOpacity = 0
+
+                        VStack {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: 280, height: 280)
+                                .background(
+                                    Image("WholeWatermelon")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 600, height: 600)
+                                        .clipped()
+                                        .offset(y: 110)
+                                        .offset(x: 160)
+                                )
+                                .overlay(
+                                    Circle()
+                                        .fill(Color.black.opacity(overlayOpacity))
+                                        .frame(width: 490, height: 1000)
+                                        .offset(x: overlayOffsetX, y: 110)
+                                        .blur(radius: 10)
+                                        .onAppear {
+                                            withAnimation(.easeOut(duration: 3.0)) {
+                                                overlayOffsetX += 200
+                                                overlayOpacity = 0
+                                            }
                                         }
-                                    }
-                            )
-                            .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
+                                )
+                                .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
+                            Spacer()
+                            // ProgressCircleView 추가
+                            ProgressCircleView(progress: 0.8)
+                                .padding(.bottom, 30)
+                        }
                     }
                     Spacer()
                 }
