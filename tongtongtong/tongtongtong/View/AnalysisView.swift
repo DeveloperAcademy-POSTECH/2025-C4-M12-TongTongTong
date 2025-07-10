@@ -8,7 +8,7 @@
 import SwiftUI
 import AVFoundation
 
-struct ResultView: View {
+struct AnalysisView: View {
     @State private var overlayOffsetX: CGFloat = 190
     @State private var overlayOpacity: Double = 0.8
 
@@ -89,7 +89,7 @@ struct ResultView: View {
 }
 
 #Preview {
-    ResultView()
+    AnalysisView()
 }
 
 struct StarView: View {

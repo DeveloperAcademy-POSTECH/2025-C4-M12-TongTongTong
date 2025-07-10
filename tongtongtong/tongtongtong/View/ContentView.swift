@@ -34,7 +34,7 @@ struct ContentView: View {
                     Spacer().frame(height: UIConstants.bottomMargin)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                NavigationLink(destination: ResultView().navigationBarHidden(true), isActive: $viewModel.isResultActive) {
+                NavigationLink(destination: AnalysisView().navigationBarHidden(true), isActive: $viewModel.isResultActive) {
                     EmptyView()
                 }
             }
