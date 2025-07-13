@@ -39,7 +39,7 @@ struct ResultView: View {
 
                 // 수박 이미지 더미
                 ZStack {
-                Image("WM2")
+                Image("WM")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .scaleEffect(2.7)
