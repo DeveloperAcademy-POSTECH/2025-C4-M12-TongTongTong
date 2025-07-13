@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FF458B112E23869100B27F4D /* SoundWaterMelon.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */; };
+		FF458B152E23925F00B27F4D /* SoundWaterMelonETC.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SoundWaterMelon.mlmodel; sourceTree = "<group>"; };
+		FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SoundWaterMelonETC.mlmodel; sourceTree = "<group>"; };
 		FF5E2DCE2E1D1400005A34B9 /* tongtongtong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tongtongtong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -34,6 +41,8 @@
 			children = (
 				FF5E2DD02E1D1400005A34B9 /* tongtongtong */,
 				FF5E2DCF2E1D1400005A34B9 /* Products */,
+				FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */,
+				FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF458B152E23925F00B27F4D /* SoundWaterMelonETC.mlmodel in Sources */,
+				FF458B112E23869100B27F4D /* SoundWaterMelon.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
