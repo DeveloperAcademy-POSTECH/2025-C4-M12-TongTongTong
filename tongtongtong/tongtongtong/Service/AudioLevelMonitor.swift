@@ -2,16 +2,27 @@ import Foundation
 import AVFoundation
 
 class AudioLevelMonitor: ObservableObject {
+    /// Determines whether monitoring should stop after detecting three sounds
+    var stopOnThreeSounds: Bool = true
+
     private var audioEngine: AVAudioEngine?
     private var timer: Timer?
     private let threshold: Float = AudioConstants.threshold
     private var soundCount: Int = 0
     private var isInCooldown: Bool = false
     private var cooldownTimer: Timer?
+    private var soundClassifier: SoundClassifier?
+    
+    // 최근 오디오 버퍼 저장
+    private(set) var latestBuffer: AVAudioPCMBuffer?
     
     var onLoudSound: (() -> Void)?
     var onThreeSoundsDetected: (() -> Void)?
     var onSoundCountChanged: ((Int) -> Void)?
+    
+    func setSoundClassifier(_ classifier: SoundClassifier) {
+        soundClassifier = classifier
+    }
 
     func startMonitoring() {
         #if targetEnvironment(simulator)
@@ -27,6 +38,8 @@ class AudioLevelMonitor: ObservableObject {
         let format = inputNode.inputFormat(forBus: bus)
         
         inputNode.installTap(onBus: bus, bufferSize: AudioConstants.bufferSize, format: format) { buffer, _ in
+            // 최신 버퍼 저장
+            self.latestBuffer = buffer
             guard let channelData = buffer.floatChannelData?[0] else { return }
             let channelDataValueArray = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
             let rms = sqrt(channelDataValueArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
@@ -34,6 +47,8 @@ class AudioLevelMonitor: ObservableObject {
             
             DispatchQueue.main.async {
                 if avgPower > self.threshold && !self.isInCooldown {
+                    // 소리 분류 수행
+                    self.soundClassifier?.classify(audioBuffer: buffer)
                     self.handleLoudSound()
                 }
             }
@@ -63,7 +78,9 @@ class AudioLevelMonitor: ObservableObject {
         // 3번 인식 완료 시
         if soundCount >= 3 {
             HapticManager.shared.notification(type: .success) // 성공 햅틱
-            stopMonitoring()
+            if stopOnThreeSounds {
+                stopMonitoring()
+            }
             onThreeSoundsDetected?()
         }
     }

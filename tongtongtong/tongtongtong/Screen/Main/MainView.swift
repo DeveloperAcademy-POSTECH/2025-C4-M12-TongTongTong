@@ -76,6 +76,12 @@ struct MainView: View {
                 Spacer().frame(height: UIConstants.bottomMargin)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            // MARK: - Debug Overlay (항상 맨 위)
+            DebugOverlayView(
+                soundClassifier: viewModel.soundClassifier,
+                isVisible: viewModel.showDebugOverlay
+            )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
@@ -95,6 +101,7 @@ struct MainView: View {
         .ignoresSafeArea()
         .onAppear {
             print("[MainView] onAppear")
+            coordinator.mainViewModel = viewModel
         }
         .onDisappear {
             print("[MainView] onDisappear")

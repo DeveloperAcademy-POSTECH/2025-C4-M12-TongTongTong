@@ -28,7 +28,11 @@ struct TitleView: View {
             .onTapGesture {
                 tapCount += 1
                 if tapCount >= 3 {
-                    coordinator.goToDev()
+                    // 디버그 모드 토글
+                    if let mainViewModel = coordinator.mainViewModel {
+                        mainViewModel.showDebugOverlay.toggle()
+                        HapticManager.shared.impact(style: .medium)
+                    }
                     tapCount = 0
                 }
             }

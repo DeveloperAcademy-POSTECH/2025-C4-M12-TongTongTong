@@ -9,6 +9,7 @@ class Coordinator: ObservableObject {
         case dev // DevView 추가
     }
     @Published var currentScreen: Screen = .splash
+    var mainViewModel: ContentViewModel?
 
     func goToSplash() { currentScreen = .splash }
     func goToContent() { currentScreen = .content }
