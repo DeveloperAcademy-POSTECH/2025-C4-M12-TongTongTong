@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct SplashView: View {
     @EnvironmentObject var coordinator: Coordinator
@@ -43,6 +44,7 @@ struct SplashView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i)) {
                     withAnimation {
                         visibleIndex = i
+                        HapticManager.shared.impact(style: .medium)
                     }
                     // 통 튀는 효과
                     DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i) + UIConstants.bounceDelay) {
@@ -55,6 +57,7 @@ struct SplashView: View {
             }
             // splashDisplayDuration 후 coordinator 상태 변경
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
+                HapticManager.shared.impact(style: .medium)
                 coordinator.goToContent()
             }
         }
