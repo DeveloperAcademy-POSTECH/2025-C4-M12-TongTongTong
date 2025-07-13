@@ -5,11 +5,11 @@ struct SplashView: View {
     @EnvironmentObject var coordinator: Coordinator
     @State private var visibleIndex = 0
     @State private var isBouncing: [Bool] = [false, false, false]
-    
+
     init() {
         print("[SplashView] init")
     }
-    
+
     // MARK: - Constants
     private let total = 3
     private let interval: TimeInterval = UIConstants.splashInterval
@@ -48,9 +48,11 @@ struct SplashView: View {
                     }
                     // 통 튀는 효과
                     DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i) + UIConstants.bounceDelay) {
+                        HapticManager.shared.impact(style: .light) // haptic on bounce start
                         isBouncing[i-1] = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.bounceDuration) {
                             isBouncing[i-1] = false
+                            HapticManager.shared.impact(style: .soft) // haptic on bounce end
                         }
                     }
                 }
@@ -69,7 +71,7 @@ struct SplashView: View {
 
 #Preview {
     SplashView()
-} 
+}
 
 
 
