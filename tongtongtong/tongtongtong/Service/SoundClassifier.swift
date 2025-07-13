@@ -15,7 +15,7 @@ class SoundClassifier: ObservableObject {
     }
 
     private func loadModel() {
-        guard let url = Bundle.main.url(forResource: "SoundWaterMelon 9", withExtension: "mlmodelc") else {
+        guard let url = Bundle.main.url(forResource: "SoundWaterMelonETC", withExtension: "mlmodelc") else {
             print("⚠️ SoundWaterMelonETC.mlmodelc 파일을 찾을 수 없습니다.")
             return
         }
