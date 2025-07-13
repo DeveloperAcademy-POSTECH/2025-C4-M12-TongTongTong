@@ -11,6 +11,10 @@ struct MainView: View {
     @StateObject private var viewModel = ContentViewModel()
     @EnvironmentObject var coordinator: Coordinator
     
+    init() {
+        print("[MainView] init")
+    }
+    
     var body: some View {
         ZStack {
             // MARK: - Main Content
@@ -53,5 +57,11 @@ struct MainView: View {
             .animation(.easeInOut(duration: UIConstants.backgroundAnimationDuration), value: viewModel.isRedBackground)
         )
         .ignoresSafeArea()
+        .onAppear {
+            print("[MainView] onAppear")
+        }
+        .onDisappear {
+            print("[MainView] onDisappear")
+        }
     }
 }

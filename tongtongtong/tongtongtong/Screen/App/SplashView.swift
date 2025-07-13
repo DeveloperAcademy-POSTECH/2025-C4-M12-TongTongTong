@@ -5,6 +5,10 @@ struct SplashView: View {
     @State private var visibleIndex = 0
     @State private var isBouncing: [Bool] = [false, false, false]
     
+    init() {
+        print("[SplashView] init")
+    }
+    
     // MARK: - Constants
     private let total = 3
     private let interval: TimeInterval = UIConstants.splashInterval
@@ -32,6 +36,7 @@ struct SplashView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
         .onAppear {
+            print("[SplashView] onAppear")
             visibleIndex = 0
             isBouncing = Array(repeating: false, count: total)
             for i in 1...total {
@@ -52,6 +57,9 @@ struct SplashView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
                 coordinator.goToContent()
             }
+        }
+        .onDisappear {
+            print("[SplashView] onDisappear")
         }
     }
 }

@@ -12,7 +12,11 @@ struct AnalysisView: View {
     @State private var overlayOffsetX: CGFloat = 190
     @State private var overlayOpacity: Double = 0.8
     @EnvironmentObject var coordinator: Coordinator
-
+    
+    init() {
+        print("[AnalysisView] init")
+    }
+    
     var body: some View {
         ZStack {
             ZStack {
@@ -86,9 +90,13 @@ struct AnalysisView: View {
         )
         .ignoresSafeArea()
         .onAppear {
+            print("[AnalysisView] onAppear")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 coordinator.goToResult()
             }
+        }
+        .onDisappear {
+            print("[AnalysisView] onDisappear")
         }
     }
 }

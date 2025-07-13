@@ -2,7 +2,11 @@ import SwiftUI
 
 struct ResultView: View {
     @EnvironmentObject var coordinator: Coordinator
-
+    
+    init() {
+        print("[ResultView] init")
+    }
+    
     var body: some View {
         ZStack {
             // 배경 그라데이션
@@ -57,6 +61,12 @@ struct ResultView: View {
                     coordinator.goToContent()
                 }
             }
+        }
+        .onAppear {
+            print("[ResultView] onAppear")
+        }
+        .onDisappear {
+            print("[ResultView] onDisappear")
         }
     }
 }
