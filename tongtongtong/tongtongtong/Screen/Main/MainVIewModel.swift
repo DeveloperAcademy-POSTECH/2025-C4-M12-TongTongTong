@@ -13,12 +13,11 @@ class ContentViewModel: ObservableObject {
     @Published var isRedBackground = false
     @Published var showMicAlert = false
     @Published var isMicActive = false
-    @Published var isResultActive = false
 
     let indicatorCount = 3
     let audioMonitor = AudioLevelMonitor()
 
-    func startMicMonitoring() {
+    func startMicMonitoring(completion: @escaping () -> Void) {
         isMicActive = true
         audioMonitor.onLoudSound = {
             self.highlightIndex = (self.highlightIndex + 1) % self.indicatorCount
@@ -31,7 +30,8 @@ class ContentViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.micMonitoringDuration) {
             self.audioMonitor.stopMonitoring()
             self.isMicActive = false
-            self.isResultActive = true
+            //self.isResultActive = true // Coordinator 패턴에서는 사용하지 않음
+            completion()
         }
     }
 }

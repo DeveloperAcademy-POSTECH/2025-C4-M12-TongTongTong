@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SplashView: View {
-    // MARK: - Properties
+    @EnvironmentObject var coordinator: Coordinator
     @State private var visibleIndex = 0
     @State private var isBouncing: [Bool] = [false, false, false]
     
@@ -47,6 +47,10 @@ struct SplashView: View {
                         }
                     }
                 }
+            }
+            // splashDisplayDuration 후 coordinator 상태 변경
+            DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
+                coordinator.goToContent()
             }
         }
     }
