@@ -58,6 +58,7 @@ struct ResultView: View {
                 }
                 .padding(.bottom, 40)
                 .onTapGesture {
+                    HapticManager.shared.impact(style: .medium) // 버튼 터치 시 햅틱 피드백
                     coordinator.goToContent()
                 }
             }
