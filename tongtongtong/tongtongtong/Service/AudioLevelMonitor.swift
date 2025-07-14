@@ -1,6 +1,8 @@
 import Foundation
 import AVFoundation
 
+
+
 class AudioLevelMonitor: ObservableObject {
     /// Determines whether monitoring should stop after detecting three sounds
     var stopOnThreeSounds: Bool = true
@@ -106,3 +108,5 @@ class AudioLevelMonitor: ObservableObject {
         onSoundCountChanged?(soundCount)
     }
 }
+
+
