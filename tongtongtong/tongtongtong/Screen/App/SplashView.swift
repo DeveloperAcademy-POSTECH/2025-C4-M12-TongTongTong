@@ -1,10 +1,15 @@
 import SwiftUI
+import UIKit
 
 struct SplashView: View {
-    // MARK: - Properties
+    @EnvironmentObject var coordinator: Coordinator
     @State private var visibleIndex = 0
     @State private var isBouncing: [Bool] = [false, false, false]
-    
+
+    init() {
+        print("[SplashView] init")
+    }
+
     // MARK: - Constants
     private let total = 3
     private let interval: TimeInterval = UIConstants.splashInterval
@@ -32,29 +37,41 @@ struct SplashView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
         .onAppear {
+            print("[SplashView] onAppear")
             visibleIndex = 0
             isBouncing = Array(repeating: false, count: total)
             for i in 1...total {
                 DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i)) {
                     withAnimation {
                         visibleIndex = i
+                        HapticManager.shared.impact(style: .medium)
                     }
                     // 통 튀는 효과
                     DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i) + UIConstants.bounceDelay) {
+                        HapticManager.shared.impact(style: .light) // haptic on bounce start
                         isBouncing[i-1] = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.bounceDuration) {
                             isBouncing[i-1] = false
+                            HapticManager.shared.impact(style: .soft) // haptic on bounce end
                         }
                     }
                 }
             }
+            // splashDisplayDuration 후 coordinator 상태 변경
+            DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
+                HapticManager.shared.impact(style: .medium)
+                coordinator.goToContent()
+            }
+        }
+        .onDisappear {
+            print("[SplashView] onDisappear")
         }
     }
 }
 
 #Preview {
     SplashView()
-} 
+}
 
 
 

@@ -11,7 +11,12 @@ import AVFoundation
 struct AnalysisView: View {
     @State private var overlayOffsetX: CGFloat = 190
     @State private var overlayOpacity: Double = 0.8
-
+    @EnvironmentObject var coordinator: Coordinator
+    
+    init() {
+        print("[AnalysisView] init")
+    }
+    
     var body: some View {
         ZStack {
             ZStack {
@@ -23,7 +28,6 @@ struct AnalysisView: View {
                         .multilineTextAlignment(.center)
 
                     ZStack {
-
                         VStack {
                             Rectangle()
                                 .foregroundColor(.clear)
@@ -52,9 +56,9 @@ struct AnalysisView: View {
                                 )
                                 .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
                             Spacer()
-                            // ProgressCircleView 추가
-                            ProgressCircleView(progress: 0.8)
-                                .padding(.bottom, 30)
+//                            // ProgressCircleView 추가
+//                            ProgressCircleView(progress: 0.8)
+//                                .padding(.bottom, 30)
                         }
                     }
                     Spacer()
@@ -85,30 +89,18 @@ struct AnalysisView: View {
             )
         )
         .ignoresSafeArea()
+        .onAppear {
+            print("[AnalysisView] onAppear")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                coordinator.goToResult()
+            }
+        }
+        .onDisappear {
+            print("[AnalysisView] onDisappear")
+        }
     }
 }
 
 #Preview {
     AnalysisView()
-}
-
-struct StarView: View {
-    var imageName: String
-    var size: CGSize
-    var offset: CGSize
-
-    @State private var opacity: Double = 1.0
-
-    var body: some View {
-        Image(imageName)
-            .resizable()
-            .frame(width: size.width, height: size.height)
-            .offset(x: offset.width, y: offset.height)
-            .opacity(opacity)
-            .onAppear {
-                withAnimation(.easeInOut(duration: Double.random(in: 1.0...2.0)).repeatForever(autoreverses: true)) {
-                    opacity = 0.2
-                }
-            }
-    }
 }
