@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		FF458B112E23869100B27F4D /* SoundWaterMelon.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */; };
 		FF458B152E23925F00B27F4D /* SoundWaterMelonETC.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */; };
+		FF4CC8882E24FD43008F0FA0 /* SoundWaterMelon 11.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF4CC8872E24FD43008F0FA0 /* SoundWaterMelon 11.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SoundWaterMelon.mlmodel; sourceTree = "<group>"; };
 		FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SoundWaterMelonETC.mlmodel; sourceTree = "<group>"; };
+		FF4CC8872E24FD43008F0FA0 /* SoundWaterMelon 11.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "SoundWaterMelon 11.mlmodel"; sourceTree = "<group>"; };
 		FF5E2DCE2E1D1400005A34B9 /* tongtongtong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tongtongtong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,6 +45,7 @@
 				FF5E2DCF2E1D1400005A34B9 /* Products */,
 				FF458B102E23869100B27F4D /* SoundWaterMelon.mlmodel */,
 				FF458B142E23925F00B27F4D /* SoundWaterMelonETC.mlmodel */,
+				FF4CC8872E24FD43008F0FA0 /* SoundWaterMelon 11.mlmodel */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF458B152E23925F00B27F4D /* SoundWaterMelonETC.mlmodel in Sources */,
+				FF4CC8882E24FD43008F0FA0 /* SoundWaterMelon 11.mlmodel in Sources */,
 				FF458B112E23869100B27F4D /* SoundWaterMelon.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,7 +268,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7653A24B9G;
+				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "통통통";
@@ -296,7 +300,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7653A24B9G;
+				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "통통통";
