@@ -1,17 +1,15 @@
 import Foundation
 import AVFoundation
 
-
-
 class AudioLevelMonitor: ObservableObject {
     /// Determines whether monitoring should stop after detecting three sounds
     var stopOnThreeSounds: Bool = true
 
     private var audioEngine: AVAudioEngine?
     private var timer: Timer?
-    private let threshold: Float = AudioConstants.threshold
+    private let threshold = AudioConstants.threshold
     private var soundCount: Int = 0
-    private var isInCooldown: Bool = false
+    private var isInCooldown = false
     private var cooldownTimer: Timer?
     private var soundClassifier: SoundClassifier?
     
@@ -53,7 +51,7 @@ class AudioLevelMonitor: ObservableObject {
             DispatchQueue.main.async {
                 if avgPower > self.threshold && !self.isInCooldown {
                     let bufferToClassify: AVAudioPCMBuffer
-                    if buffer.format.sampleRate != 16000 {
+                    if buffer.format.sampleRate != 22050 {
                         if let downsampled = self.downsampleBufferTo16kHz(buffer, originalFormat: format) {
                             bufferToClassify = downsampled
                         } else {
