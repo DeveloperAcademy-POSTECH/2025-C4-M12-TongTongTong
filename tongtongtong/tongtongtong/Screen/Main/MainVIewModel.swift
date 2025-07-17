@@ -78,6 +78,24 @@ class ContentViewModel: ObservableObject {
                     // 디버그 모드에서는 아무 동작도 하지 않음 (isMicActive false로 만들지 않음)
                     return
                 } else {
+                    if let buffer = self.audioMonitor.latestBuffer {
+                        do {
+                            let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
+                            try AudioBufferExport.writeWAV(buffer: buffer, to: url)
+                            WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
+                                DispatchQueue.main.async {
+                                    switch result {
+                                    case .success(let response):
+                                        print("[API] 예측 성공: \(response)")
+                                    case .failure(let error):
+                                        print("[API] 예측 실패: \(error)")
+                                    }
+                                }
+                            }
+                        } catch {
+                            print("[API] 파일 저장 실패: \(error)")
+                        }
+                    }
                     if !self.showDebugOverlay { self.isMicActive = false }
                     completion()
                 }
@@ -159,3 +177,4 @@ class ContentViewModel: ObservableObject {
         stopDebugTimer()
     }
 }
+
