@@ -19,9 +19,22 @@
 		FF5E2DCE2E1D1400005A34B9 /* tongtongtong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tongtongtong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CAF4EF422E28E55A000885D3 /* Exceptions for "tongtongtong" folder in "tongtongtong" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FF5E2DCD2E1D1400005A34B9 /* tongtongtong */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FF5E2DD02E1D1400005A34B9 /* tongtongtong */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CAF4EF422E28E55A000885D3 /* Exceptions for "tongtongtong" folder in "tongtongtong" target */,
+			);
 			path = tongtongtong;
 			sourceTree = "<group>";
 		};
@@ -268,9 +281,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 6TW9MCXPJD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = tongtongtong/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "통통통";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "수박을 두드리는 소리를 감지하기 위해 마이크 접근이 필요합니다.";
@@ -300,9 +314,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
+				DEVELOPMENT_TEAM = 6TW9MCXPJD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = tongtongtong/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "통통통";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "수박을 두드리는 소리를 감지하기 위해 마이크 접근이 필요합니다.";
