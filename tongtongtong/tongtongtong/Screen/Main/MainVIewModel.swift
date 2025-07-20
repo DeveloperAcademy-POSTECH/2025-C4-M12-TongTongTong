@@ -62,7 +62,7 @@ class ContentViewModel: ObservableObject {
                 }
                 print("[DEBUG] 소리 감지 카운트: \(count)")
                 self.soundCount = count
-                self.highlightIndex = count - 1
+                self.highlightIndex = count
                 self.isRedBackground = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.redBackgroundDuration) {
                     self.isRedBackground = false
