@@ -58,7 +58,7 @@ class SoundClassifier: ObservableObject {
 
         // 누적된 샘플이 충분할 때만 예측 수행
         while accumulatedBuffer.count >= inputLength {
-            // 앞서 16000개 샘플을 MLMultiArray로 변환
+            // 앞서 22050개 샘플을 MLMultiArray로 변환
             let inputSamples = Array(accumulatedBuffer.prefix(inputLength))
             guard let inputArray = bufferToMLMultiArray(buffer: inputSamples) else {
                 print("[DEBUG] MLMultiArray 변환 실패")
@@ -84,7 +84,7 @@ class SoundClassifier: ObservableObject {
                 print("[DEBUG] 예측된 확률: \(probDict)")
                 self.probabilities = probDict
             }
-            // 사용한 16000개 샘플 제거
+            // 사용한 22050개 샘플 제거
             accumulatedBuffer.removeFirst(inputLength)
             print("[DEBUG] accumulatedBuffer 길이 제거 후: \(accumulatedBuffer.count)")
         }
