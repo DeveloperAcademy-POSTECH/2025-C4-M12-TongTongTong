@@ -16,33 +16,19 @@ struct SeedIndicatorView: View {
             ForEach(0..<indicatorCount, id: \.self) { idx in
                 ZStack {
                     if highlightIndex == 0 {
-                        Image("BlackSeeds")
-                            .resizable()
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
+                        Image("BlackSeed")
                     } else if highlightIndex >= indicatorCount {
-                        Image("WhiteSeeds")
-                            .resizable()
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
-                        Circle()
-                            .stroke(Color.white.opacity(0.7), lineWidth: 12)
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
-                            .blur(radius: 2)
+                        Image("WhiteSeed")
+                            .shadow(color: .white, radius: 6, x: 0, y: 0)
                             .transition(.opacity)
                             .animation(.easeInOut(duration: UIConstants.highlightAnimationDuration), value: highlightIndex)
                     } else if idx < highlightIndex {
-                        Image("WhiteSeeds")
-                            .resizable()
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
-                        Circle()
-                            .stroke(Color.white.opacity(0.7), lineWidth: 12)
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
-                            .blur(radius: 2)
+                        Image("WhiteSeed")
+                            .shadow(color: .white, radius: 6, x: 0, y: 0)
                             .transition(.opacity)
                             .animation(.easeInOut(duration: UIConstants.highlightAnimationDuration), value: highlightIndex)
                     } else {
-                        Image("BlackSeeds")
-                            .resizable()
-                            .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
+                        Image("BlackSeed")
                     }
                 }
             }
