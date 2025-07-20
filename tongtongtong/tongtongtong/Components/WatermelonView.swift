@@ -14,7 +14,7 @@ struct WatermelonView: View {
     
     var body: some View {
         ZStack {
-            let waveConfigs = isRedBackground ? WaveCircleConfig.redWaves : WaveCircleConfig.greenWaves
+            let waveConfigs = isRedBackground ? WaveCircleConfig.redWaves : WaveCircleConfig.blueWaves
             
             ForEach(Array(waveConfigs.enumerated()), id: \.offset) { _, config in
                 WaveCircle(
