@@ -22,6 +22,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FF5E2DD02E1D1400005A34B9 /* tongtongtong */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+				Config.xcconfig = text.xcconfig;
+			};
 			path = tongtongtong;
 			sourceTree = "<group>";
 		};

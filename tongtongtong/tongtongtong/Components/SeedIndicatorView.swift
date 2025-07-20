@@ -15,7 +15,7 @@ struct SeedIndicatorView: View {
         HStack(spacing: 0) {
             ForEach(0..<indicatorCount, id: \.self) { idx in
                 ZStack {
-                    if idx == highlightIndex {
+                    if highlightIndex >= indicatorCount || idx == highlightIndex {
                         Image("WhiteSeeds")
                             .resizable()
                             .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
@@ -24,7 +24,7 @@ struct SeedIndicatorView: View {
                             .resizable()
                             .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
                     }
-                    if idx == highlightIndex {
+                    if highlightIndex < indicatorCount && idx == highlightIndex {
                         Circle()
                             .stroke(Color.white.opacity(0.7), lineWidth: 12)
                             .frame(width: UIConstants.seedSize, height: UIConstants.seedSize)
