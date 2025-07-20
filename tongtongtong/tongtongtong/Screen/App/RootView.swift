@@ -20,6 +20,8 @@ struct RootView: View {
             AnalysisView()
         case .result:
             ResultView()
+                .environmentObject(coordinator)
+                .environmentObject(coordinator.resultState)
         case .dev:
             DevView()
         case .recordingComplete:

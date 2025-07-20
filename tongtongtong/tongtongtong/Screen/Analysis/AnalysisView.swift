@@ -89,12 +89,6 @@ struct AnalysisView: View {
             )
         )
         .ignoresSafeArea()
-        .onAppear {
-            print("[AnalysisView] onAppear")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                coordinator.goToRecordingComplete()
-            }
-        }
         .onDisappear {
             print("[AnalysisView] onDisappear")
         }

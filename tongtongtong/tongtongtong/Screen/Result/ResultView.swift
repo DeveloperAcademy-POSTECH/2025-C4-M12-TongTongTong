@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ResultView: View {
     @EnvironmentObject var coordinator: Coordinator
-    @StateObject private var state = ResultState()
+    @EnvironmentObject var state: ResultState
     
     init() {
         print("[ResultView] init")
@@ -10,7 +10,7 @@ struct ResultView: View {
     
     var body: some View {
         ZStack {
-            Image(state.ripeness.imageName)
+            Image(state.resultImageName)
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -44,7 +44,5 @@ struct ResultView: View {
 }
 
 #Preview {
-    let state = ResultState()
-    state.confidence = 0.85
-    return ResultView().environmentObject(state)
+    ResultView().environmentObject(ResultState())
 }

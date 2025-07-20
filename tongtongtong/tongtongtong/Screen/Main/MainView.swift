@@ -149,6 +149,7 @@ struct MainView: View {
         .onAppear {
             print("[MainView] onAppear")
             coordinator.mainViewModel = viewModel
+            viewModel.coordinator = coordinator // 이 줄을 꼭 추가!
         }
         .onDisappear {
             print("[MainView] onDisappear")
