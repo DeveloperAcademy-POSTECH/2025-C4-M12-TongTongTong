@@ -21,7 +21,7 @@ struct MainView: View {
             // MARK: - Main Content
             VStack {
                 Spacer().frame(height: UIConstants.topMargin)
-                TitleView()
+                TitleView(isMicActive: viewModel.isMicActive)
                 Spacer()
 
                 // 3번 인식 안내 텍스트
@@ -107,7 +107,7 @@ struct MainView: View {
                                     .frame(height: 200)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 20)
-                                Text("수박에 iPhone을 가까이 대고\n손끝으로 세 번 두드리세요")
+                                Text("수박에 iPhone을 가까이 대고\n손 끝으로 세 번 두드리세요")
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundColor(.black.opacity(0.8))
                                     .multilineTextAlignment(.center)
