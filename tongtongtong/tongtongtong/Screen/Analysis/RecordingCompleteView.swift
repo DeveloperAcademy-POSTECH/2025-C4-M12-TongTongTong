@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RecordingCompleteView: View {
     @EnvironmentObject var coordinator: Coordinator
-
+    
     var body: some View {
         ZStack {
             LinearGradient(
@@ -15,7 +15,7 @@ struct RecordingCompleteView: View {
                 endPoint: UnitPoint(x: 0.5, y: 1)
             )
             .ignoresSafeArea()
-
+            
             VStack(spacing: 8) {
                 Text("녹음 완료")
                     .font(.system(size: 34, weight: .bold))
@@ -30,8 +30,10 @@ struct RecordingCompleteView: View {
                     .scaledToFit()
                     .frame(width: 120, height: 120)
                 Spacer()
+                
+                Spacer()
                 SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
-                Spacer().frame(height: UIConstants.bottomMargin)
+                    .padding(.bottom, UIConstants.bottomMargin)
             }
         }
         .onAppear {

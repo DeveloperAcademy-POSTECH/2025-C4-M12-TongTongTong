@@ -11,11 +11,11 @@ struct MainView: View {
     @StateObject private var viewModel = ContentViewModel()
     @EnvironmentObject var coordinator: Coordinator
     @State private var showCustomAlert = true
-
+    
     init() {
         print("[MainView] init")
     }
-
+    
     var body: some View {
         ZStack {
             // MARK: - Main Content
@@ -23,19 +23,19 @@ struct MainView: View {
                 Spacer().frame(height: UIConstants.topMargin)
                 TitleView(isMicActive: viewModel.isMicActive)
                 Spacer()
-
+                
                 // 3번 인식 안내 텍스트
                 if viewModel.isMicActive {
                     VStack(spacing: 8) {
                         Text("\(viewModel.soundCount)/3")
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.white)
-
+                        
                         Text("수박을 두드려주세요!")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
-
+                        
 #if targetEnvironment(simulator)
                         if viewModel.showTapInstruction {
                             Text("(시뮬레이터: 수박을 탭하세요)")
@@ -47,7 +47,7 @@ struct MainView: View {
                     }
                     .padding(.bottom, 20)
                 }
-
+                
                 WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
                     HapticManager.shared.impact(style: .medium) // 햅틱 피드백 추가
                     viewModel.showMicAlert = true
@@ -74,11 +74,11 @@ struct MainView: View {
                 }
                 Spacer()
                 SeedIndicatorView(highlightIndex: viewModel.highlightIndex, indicatorCount: viewModel.indicatorCount)
-                Spacer().frame(height: UIConstants.bottomMargin)
+                    .padding(.bottom, UIConstants.bottomMargin)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .zIndex(0)
-
+            
             // MARK: - Debug Overlay (항상 맨 위)
             DebugOverlayView(
                 soundClassifier: viewModel.soundClassifier,
@@ -93,7 +93,7 @@ struct MainView: View {
                         .contentShape(Rectangle())
                         .onTapGesture { showCustomAlert = false }
                         .blur(radius: 16)
-
+                    
                     VStack {
                         ZStack {
                             VStack(spacing: 20) {
