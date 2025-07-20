@@ -38,6 +38,9 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
+    
+    // Weak reference to the Coordinator for navigation and state updates
+    weak var coordinator: Coordinator?
 
     let indicatorCount = 3
     let audioMonitor = AudioLevelMonitor()
@@ -71,33 +74,25 @@ class ContentViewModel: ObservableObject {
         }
         
         // 3번 인식 완료 시
-        audioMonitor.onThreeSoundsDetected = {
+        audioMonitor.onThreeSoundsDetected = { [weak self] in
             DispatchQueue.main.async {
                 print("[DEBUG] 3번 소리 감지 완료")
-                if self.showDebugOverlay {
+                if self?.showDebugOverlay == true {
                     // 디버그 모드에서는 아무 동작도 하지 않음 (isMicActive false로 만들지 않음)
                     return
                 } else {
-                    if let buffer = self.audioMonitor.latestBuffer {
+                    if let buffer = self?.audioMonitor.latestBuffer {
                         do {
                             let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
                             try AudioBufferExport.writeWAV(buffer: buffer, to: url)
-                            WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
-                                DispatchQueue.main.async {
-                                    switch result {
-                                    case .success(let response):
-                                        print("[API] 예측 성공: \(response)")
-                                    case .failure(let error):
-                                        print("[API] 예측 실패: \(error)")
-                                    }
-                                }
-                            }
+                            self?.coordinator?.resultState.audioFileURL = url // 오디오 파일 경로 저장
                         } catch {
                             print("[API] 파일 저장 실패: \(error)")
                         }
                     }
-                    if !self.showDebugOverlay { self.isMicActive = false }
-                    completion()
+                    if self?.showDebugOverlay == false { self?.isMicActive = false }
+                    // 화면 전환: 3번 두드림이 끝나면 RecordingCompleteView로 이동
+                    self?.coordinator?.goToRecordingComplete()
                 }
             }
         }

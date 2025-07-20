@@ -11,6 +11,7 @@ class Coordinator: ObservableObject {
     }
     @Published var currentScreen: Screen = .splash
     var mainViewModel: ContentViewModel?
+    @Published var resultState = ResultState()
 
     func goToSplash() { currentScreen = .splash }
     func goToContent() { currentScreen = .content }
