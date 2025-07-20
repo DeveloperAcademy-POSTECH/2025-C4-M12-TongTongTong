@@ -66,7 +66,8 @@ struct MainView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인") {
                         viewModel.startMicMonitoring {
-                            coordinator.goToRecordingComplete()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { coordinator.goToRecordingComplete()
+                            }
                         }
                     }
                 } message: {

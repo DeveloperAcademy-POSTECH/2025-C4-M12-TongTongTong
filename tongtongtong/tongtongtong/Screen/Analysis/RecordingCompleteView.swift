@@ -25,12 +25,10 @@ struct RecordingCompleteView: View {
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(.white)
                 Spacer()
-                Image("checkImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                Spacer()
-                
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.white)
+                    .font(.system(size: 122))
+
                 Spacer()
                 SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
                     .padding(.bottom, UIConstants.bottomMargin)

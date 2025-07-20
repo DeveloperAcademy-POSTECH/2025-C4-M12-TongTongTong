@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  ContentViewModel.swift
 //  tongtongtong
 //
 //  Created by Leo on 7/9/25.
@@ -46,7 +46,7 @@ class ContentViewModel: ObservableObject {
     let audioMonitor = AudioLevelMonitor()
     let soundClassifier = SoundClassifier()
     private var debugTimer: Timer?
-
+    
     func startMicMonitoring(completion: @escaping () -> Void) {
         print("[DEBUG] 마이크 모니터링 시작")
         // 디버그 모드에서는 3회 감지 후에도 모니터링을 멈추지 않도록 설정
@@ -90,9 +90,12 @@ class ContentViewModel: ObservableObject {
                             print("[API] 파일 저장 실패: \(error)")
                         }
                     }
-                    if self?.showDebugOverlay == false { self?.isMicActive = false }
-                    // 화면 전환: 3번 두드림이 끝나면 RecordingCompleteView로 이동
-                    self?.coordinator?.goToRecordingComplete()
+                    // 3/3을 화면에 보여줄 수 있도록 지연 후에만 끄고 화면 전환
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.showTapInstruction = false
+                        self.isMicActive = false
+                        completion()
+                    }
                 }
             }
         }
@@ -106,11 +109,11 @@ class ContentViewModel: ObservableObject {
         audioMonitor.startMonitoring()
         
         // 시뮬레이터에서 탭 안내 표시
-        #if targetEnvironment(simulator)
+#if targetEnvironment(simulator)
         showTapInstruction = true
-        #endif
+#endif
     }
-
+    
     // 디버그 모드: 0.5초마다 자동 분석
     private func startDebugTimer() {
         stopDebugTimer()
@@ -135,7 +138,7 @@ class ContentViewModel: ObservableObject {
     
     // 시뮬레이터용 탭 처리
     func handleSimulatorTap(completion: @escaping () -> Void) {
-        #if targetEnvironment(simulator)
+#if targetEnvironment(simulator)
         if isMicActive {
             if showDebugOverlay { return }
             print("[DEBUG] 시뮬레이터 탭 감지")
@@ -151,17 +154,17 @@ class ContentViewModel: ObservableObject {
             }
             
             if soundCount >= 3 {
-                if showDebugOverlay { return } // 디버그 모드면 아무 동작도 하지 않음
-                isMicActive = false
-                showTapInstruction = false
-                HapticManager.shared.notification(type: .success) // 3번 완료 시 성공 햅틱
-                // 3번 완료 시 분석 화면으로 이동
+                if showDebugOverlay { return }
+                HapticManager.shared.notification(type: .success)
+                // 0.5초 뒤에 화면 전환
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.showTapInstruction = false
+                    self.isMicActive = false
                     completion()
                 }
             }
         }
-        #endif
+#endif
     }
     
     func stopMonitoring() {
