@@ -91,7 +91,8 @@ class ContentViewModel: ObservableObject {
                         }
                     }
                     // 3/3을 화면에 보여줄 수 있도록 지연 후에만 끄고 화면 전환
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                        guard let self = self else { return }
                         self.showTapInstruction = false
                         self.isMicActive = false
                         completion()
