@@ -92,7 +92,7 @@ struct AnalysisView: View {
         .onAppear {
             print("[AnalysisView] onAppear")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                coordinator.goToResult()
+                coordinator.goToRecordingComplete()
             }
         }
         .onDisappear {

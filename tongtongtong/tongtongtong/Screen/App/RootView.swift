@@ -22,6 +22,8 @@ struct RootView: View {
             ResultView()
         case .dev:
             DevView()
+        case .recordingComplete:
+            RecordingCompleteView()
         }
     }
 }
