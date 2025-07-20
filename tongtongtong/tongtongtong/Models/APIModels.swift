@@ -17,7 +17,7 @@ struct PredictionResponse: Codable {
     let filename: String
     let prediction: Int
     let result: String
-    let confidence: Double?
+    let confidence: Double
 }
 
 struct ErrorResponse: Codable {
