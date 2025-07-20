@@ -22,11 +22,13 @@ struct AnalysisView: View {
             ZStack {
                 VStack(spacing: UIConstants.mainSpacing) {
                     Spacer().frame(height: UIConstants.splashTopMargin)
-                    Text("과즙 분석중...")
-                        .font(.system(size: UIConstants.resultFontSize, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                    
+                    HStack {
+                        Text("주파수 분석중")
+                        Image(systemName: "waveform")
+                    }
+                    .font(.system(size: UIConstants.resultFontSize, weight: .bold))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
                     ZStack {
                         VStack {
                             Rectangle()
@@ -56,9 +58,6 @@ struct AnalysisView: View {
                                 )
                                 .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
                             Spacer()
-                            //                            // ProgressCircleView 추가
-                            //                            ProgressCircleView(progress: 0.8)
-                            //                                .padding(.bottom, 30)
                         }
                     }
                     Spacer()
@@ -121,7 +120,6 @@ struct AnalysisView: View {
         }
     }
 }
-
 #Preview {
     AnalysisView()
 }
