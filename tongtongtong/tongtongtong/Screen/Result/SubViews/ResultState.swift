@@ -10,6 +10,7 @@ import SwiftUI
 class ResultState: ObservableObject {
     @Published var confidence: Double = 0
     @Published var result: String = "높음"
+    var audioFileURL: URL? = nil // 서버 분석용 오디오 파일 경로 임시 저장
     
     var isRipe: Bool {
         result == "높음" && confidence >= 0

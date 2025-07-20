@@ -92,6 +92,29 @@ struct AnalysisView: View {
         .onDisappear {
             print("[AnalysisView] onDisappear")
         }
+        .onAppear {
+            print("[AnalysisView] onAppear - 서버 분석 시작")
+            guard let url = coordinator.resultState.audioFileURL else {
+                print("[AnalysisView] 오디오 파일 없음")
+                return
+            }
+            // 3초간 로딩 화면 노출 후 서버 호출
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let response):
+                            print("[API] 예측 성공: \(response)")
+                            coordinator.resultState.update(with: response)
+                            coordinator.goToResult()
+                        case .failure(let error):
+                            print("[API] 예측 실패: \(error)")
+                            // 에러 처리 필요시 추가
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

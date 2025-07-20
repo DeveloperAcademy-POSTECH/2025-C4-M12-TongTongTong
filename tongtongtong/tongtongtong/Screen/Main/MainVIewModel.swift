@@ -85,27 +85,14 @@ class ContentViewModel: ObservableObject {
                         do {
                             let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
                             try AudioBufferExport.writeWAV(buffer: buffer, to: url)
-                            WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { [weak self] result in
-                                DispatchQueue.main.async {
-                                    switch result {
-                                    case .success(let response):
-                                        print("[API] 예측 성공: \(response)")
-                                        // 상태 업데이트
-                                        self?.coordinator?.resultState.update(with: response)
-                                        // 결과 화면으로 이동
-                                        self?.coordinator?.goToResult()
-                                    case .failure(let error):
-                                        print("[API] 예측 실패: \(error)")
-                                        // 에러 처리 (필요시)
-                                    }
-                                }
-                            }
+                            self?.coordinator?.resultState.audioFileURL = url // 오디오 파일 경로 저장
                         } catch {
                             print("[API] 파일 저장 실패: \(error)")
                         }
                     }
                     if self?.showDebugOverlay == false { self?.isMicActive = false }
-                    // completion() 호출/화면전환 코드 제거
+                    // 화면 전환: 3번 두드림이 끝나면 RecordingCompleteView로 이동
+                    self?.coordinator?.goToRecordingComplete()
                 }
             }
         }

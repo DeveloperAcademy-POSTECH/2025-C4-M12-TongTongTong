@@ -57,7 +57,7 @@ struct MainView: View {
 #if targetEnvironment(simulator)
                     if viewModel.isMicActive {
                         viewModel.handleSimulatorTap {
-                            coordinator.goToAnalysis()
+                            coordinator.goToRecordingComplete()
                         }
                     }
 #endif
@@ -66,7 +66,7 @@ struct MainView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인") {
                         viewModel.startMicMonitoring {
-                            coordinator.goToAnalysis()
+                            coordinator.goToRecordingComplete()
                         }
                     }
                 } message: {

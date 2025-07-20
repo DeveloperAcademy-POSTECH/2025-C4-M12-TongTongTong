@@ -34,11 +34,11 @@ struct RecordingCompleteView: View {
                     .padding(.bottom, 36)
             }
         }
-        // .onAppear {
-        //     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-        //         coordinator.goToResult()
-        //     }
-        // }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                coordinator.goToAnalysis()
+            }
+        }
     }
 }
 
