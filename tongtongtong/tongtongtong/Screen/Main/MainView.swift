@@ -137,8 +137,8 @@ struct MainView: View {
                     .init(color: ColorConstants.redGradientStart, location: 0.00),
                     .init(color: ColorConstants.redGradientEnd, location: 1.00)
                 ] : [
-                    .init(color: ColorConstants.greenGradientStart, location: 0.20),
-                    .init(color: ColorConstants.greenGradientEnd, location: 1.00)
+                    .init(color: ColorConstants.blueGradientStart, location: 0.20),
+                    .init(color: ColorConstants.blueGradientEnd, location: 1.00)
                 ],
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)

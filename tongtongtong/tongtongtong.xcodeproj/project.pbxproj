@@ -20,7 +20,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CA6E6C1E2E2CDFEA0061D431 /* Exceptions for "tongtongtong" folder in "tongtongtong" target */ = {
+		FF42A4752E2CD92700DA8A1F /* Exceptions for "tongtongtong" folder in "tongtongtong" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -33,7 +33,7 @@
 		FF5E2DD02E1D1400005A34B9 /* tongtongtong */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				CA6E6C1E2E2CDFEA0061D431 /* Exceptions for "tongtongtong" folder in "tongtongtong" target */,
+				FF42A4752E2CD92700DA8A1F /* Exceptions for "tongtongtong" folder in "tongtongtong" target */,
 			);
 			explicitFileTypes = {
 				Config.xcconfig = text.xcconfig;
@@ -286,7 +286,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6TW9MCXPJD;
+				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = tongtongtong/Info.plist;
@@ -320,7 +320,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6TW9MCXPJD;
+				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = tongtongtong/Info.plist;
