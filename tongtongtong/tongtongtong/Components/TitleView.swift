@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TitleView: View {
     @EnvironmentObject var coordinator: Coordinator
+    let isMicActive: Bool
     @State private var tapCount = 0
     
     var body: some View {
@@ -37,14 +38,16 @@ struct TitleView: View {
                 }
             }
             
-            Text("수박을 눌러 분석을 시작해주세요")
-                .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
-                .foregroundColor(.white)
+            if !isMicActive {
+                Text("수박을 눌러 분석을 시작해주세요")
+                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+                    .foregroundColor(.white)
+            }
         }
     }
 }
 
 #Preview {
-    TitleView()
+    TitleView(isMicActive: false)
         .background(Color.blue)
 }

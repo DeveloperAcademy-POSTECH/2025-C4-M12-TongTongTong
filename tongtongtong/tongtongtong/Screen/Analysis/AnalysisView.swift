@@ -76,7 +76,7 @@ struct AnalysisView: View {
                 StarView(imageName: "Star", size: CGSize(width: 40, height: 40), offset: CGSize(width: 30, height: 300))
             }
         }
-        .frame(width: 394, height: 852)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             LinearGradient(
                 stops: [
@@ -91,8 +91,8 @@ struct AnalysisView: View {
         .ignoresSafeArea()
         .onAppear {
             print("[AnalysisView] onAppear")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                coordinator.goToRecordingComplete()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                coordinator.goToResult()
             }
         }
         .onDisappear {
