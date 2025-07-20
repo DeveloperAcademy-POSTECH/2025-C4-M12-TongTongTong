@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "WhiteSeed.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "BlackSeeds.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
