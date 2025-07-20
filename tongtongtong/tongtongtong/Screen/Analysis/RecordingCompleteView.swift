@@ -31,12 +31,12 @@ struct RecordingCompleteView: View {
                     .frame(width: 120, height: 120)
                 Spacer()
                 SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
-                    .padding(.bottom, 36)
+                Spacer().frame(height: UIConstants.bottomMargin)
             }
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                coordinator.goToResult()
+                coordinator.goToAnalysis()
             }
         }
     }
