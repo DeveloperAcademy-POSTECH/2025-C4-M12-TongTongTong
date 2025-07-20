@@ -26,7 +26,7 @@ struct AnalysisView: View {
                         .font(.system(size: UIConstants.resultFontSize, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-
+                    
                     ZStack {
                         VStack {
                             Rectangle()
@@ -56,15 +56,15 @@ struct AnalysisView: View {
                                 )
                                 .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
                             Spacer()
-//                            // ProgressCircleView 추가
-//                            ProgressCircleView(progress: 0.8)
-//                                .padding(.bottom, 30)
+                            //                            // ProgressCircleView 추가
+                            //                            ProgressCircleView(progress: 0.8)
+                            //                                .padding(.bottom, 30)
                         }
                     }
                     Spacer()
                 }
             }
-
+            
             ZStack {
                 StarView(imageName: "Star", size: CGSize(width: 20, height: 20), offset: CGSize(width: -80, height: -200))
                 StarView(imageName: "Star", size: CGSize(width: 60, height: 60), offset: CGSize(width: -100, height: -150))
@@ -76,7 +76,7 @@ struct AnalysisView: View {
                 StarView(imageName: "Star", size: CGSize(width: 40, height: 40), offset: CGSize(width: 30, height: 300))
             }
         }
-        .frame(width: 394, height: 852)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             LinearGradient(
                 stops: [
@@ -112,6 +112,10 @@ struct AnalysisView: View {
                             // 에러 처리 필요시 추가
                         }
                     }
+                }
+                print("[AnalysisView] onAppear")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    coordinator.goToResult()
                 }
             }
         }
