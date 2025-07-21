@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  MainViewModel.swift
 //  tongtongtong
 //
 //  Created by Leo on 7/9/25.
@@ -65,6 +65,7 @@ class ContentViewModel: ObservableObject {
                 }
                 print("[DEBUG] 소리 감지 카운트: \(count)")
                 self.soundCount = count
+                HapticManager.shared.impact(style: .medium)
                 self.highlightIndex = count
                 self.isRedBackground = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.redBackgroundDuration) {
@@ -145,6 +146,8 @@ class ContentViewModel: ObservableObject {
             print("[DEBUG] 시뮬레이터 탭 감지")
             // 더미 소리 분류 수행
             soundClassifier.classifyDummySound()
+            
+            HapticManager.shared.impact(style: .medium)
             
             soundCount += 1
             highlightIndex = soundCount - 1
