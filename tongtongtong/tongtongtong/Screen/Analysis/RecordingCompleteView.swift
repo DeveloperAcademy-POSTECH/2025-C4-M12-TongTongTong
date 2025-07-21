@@ -4,7 +4,27 @@ struct RecordingCompleteView: View {
     @EnvironmentObject var coordinator: Coordinator
     
     var body: some View {
-        ZStack {
+        VStack {
+            Spacer().frame(height: UIConstants.topMargin)
+            // 추후 TitleView 컴포넌트 리팩토링
+            VStack(spacing: UIConstants.titleSpacing) {
+                Text("녹음 완료")
+                    .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                Text("주파수 분석을 시작할게요")
+                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+            }
+            .foregroundColor(.white)
+            Spacer()
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(.white)
+                .font(.system(size: 122))
+            
+            Spacer()
+            SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
+                .padding(.bottom, UIConstants.bottomMargin)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
             LinearGradient(
                 stops: [
                     Gradient.Stop(color: Color(red: 1, green: 1, blue: 0.97), location: 0.00),
@@ -14,26 +34,8 @@ struct RecordingCompleteView: View {
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)
             )
-            .ignoresSafeArea()
-            
-            VStack(spacing: 8) {
-                Text("녹음 완료")
-                    .font(.system(size: 34, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(.top, 50)
-                Text("주파수 분석을 시작할게요")
-                    .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(.white)
-                Spacer()
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.white)
-                    .font(.system(size: 122))
-
-                Spacer()
-                SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
-                    .padding(.bottom, UIConstants.bottomMargin)
-            }
-        }
+        )
+        .ignoresSafeArea()
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 coordinator.goToAnalysis()
@@ -41,7 +43,7 @@ struct RecordingCompleteView: View {
         }
     }
 }
-
-#Preview {
-    RecordingCompleteView().environmentObject(Coordinator())
-}
+    
+    #Preview {
+        RecordingCompleteView().environmentObject(Coordinator())
+    }
