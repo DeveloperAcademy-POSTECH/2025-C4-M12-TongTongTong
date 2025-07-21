@@ -5,6 +5,7 @@ struct MainView: View {
     @StateObject private var viewModel = ContentViewModel()
     @EnvironmentObject var coordinator: Coordinator
     @State private var showCustomAlert = true
+    @State private var isTransitioning = false
     
     init() {
         print("[MainView] init")
@@ -15,7 +16,7 @@ struct MainView: View {
             // MARK: - Main Content
             VStack {
                 Spacer().frame(height: UIConstants.topMargin)
-                TitleView(isMicActive: viewModel.isMicActive)
+                TitleView(isMicActive: viewModel.isMicActive, isTransitioning: isTransitioning)
                 Spacer()
                 
                 WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
@@ -36,6 +37,7 @@ struct MainView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인") {
                         viewModel.startMicMonitoring {
+                            isTransitioning = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { coordinator.goToRecordingComplete()
                             }
                         }
@@ -148,7 +150,6 @@ struct MainView: View {
         }
     }
 }
-
 
 #Preview {
     MainView()

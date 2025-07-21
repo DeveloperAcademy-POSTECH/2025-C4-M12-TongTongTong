@@ -10,7 +10,7 @@ import SwiftUI
 struct TitleView: View {
     @EnvironmentObject var coordinator: Coordinator
     let isMicActive: Bool
-    @State private var tapCount = 0
+    let isTransitioning: Bool
     
     var body: some View {
         VStack(spacing: UIConstants.titleSpacing) {
@@ -27,18 +27,18 @@ struct TitleView: View {
                 }
             }
             .onTapGesture {
-                tapCount += 1
-                if tapCount >= 3 {
-                    // 디버그 모드 토글
-                    if let mainViewModel = coordinator.mainViewModel {
-                        mainViewModel.showDebugOverlay.toggle()
-                        HapticManager.shared.impact(style: .medium)
-                    }
-                    tapCount = 0
+                // 디버그 모드 토글
+                if let mainViewModel = coordinator.mainViewModel {
+                    mainViewModel.showDebugOverlay.toggle()
+                    HapticManager.shared.impact(style: .medium)
                 }
             }
             
-            if !isMicActive {
+            if isTransitioning {
+                Text("잠시만 기다려주세요")
+                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+                    .foregroundColor(.white)
+            } else if !isMicActive {
                 Text("수박을 눌러 녹음을 시작해주세요")
                     .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
                     .foregroundColor(.white)
@@ -51,7 +51,7 @@ struct TitleView: View {
     }
 }
 
-#Preview {
-    TitleView(isMicActive: false)
-        .background(Color.blue)
-}
+//#Preview {
+//    TitleView(isMicActive: false)
+//        .background(Color.blue)
+//}
