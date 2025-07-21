@@ -1,9 +1,3 @@
-//
-//  ContentView 2.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
 import SwiftUI
 import AVFoundation
 
@@ -89,45 +83,71 @@ struct MainView: View {
         .overlay(
             Group {
                 if showCustomAlert {
-                    Color.black.opacity(0.04)
-                        .ignoresSafeArea()
-                        .contentShape(Rectangle())
-                        .onTapGesture { showCustomAlert = false }
-                        .blur(radius: 16)
-                    
-                    VStack {
-                        ZStack {
-                            VStack(spacing: 20) {
-                                Text("TIP")
-                                    .font(.system(size: 28, weight: .bold))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.black)
-                                Image("HandWM")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 200)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 20)
-                                Text("수박에 iPhone을 가까이 대고\n손 끝으로 세 번 두드리세요")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.black.opacity(0.8))
-                                    .multilineTextAlignment(.center)
-                            }
-                            .padding(32)
+                    ZStack {
+                        Color.black.opacity(0.04)
+                            .ignoresSafeArea()
+                            .blur(radius: 16)
+                        
+                        VStack {
+                            // --- ▼ 오류 수정된 부분 ▼ ---
+                            ZStack {
+                                // 1. 팁 박스 콘텐츠
+                                VStack(spacing: 20) {
+                                    Text("TIP")
+                                        .font(.system(size: 28, weight: .bold))
+                                        .multilineTextAlignment(.center)
+                                        .foregroundColor(.black)
+                                    Image("HandWM")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 200)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 20)
+                                    Text("수박에 iPhone을 가까이 대고\n손 끝으로 세 번 두드리세요")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.black.opacity(0.8))
+                                        .multilineTextAlignment(.center)
+                                }
+                                .padding(32)
+
+                                // 2. X 버튼 (콘텐츠와 같은 ZStack 안에 위치)
+                                Button(action: {
+                                    withAnimation {
+                                        showCustomAlert = false
+                                    }
+                                }) {
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.black.opacity(0.6))
+                                        .padding()
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                                .padding(.trailing, 5)
+                                
+                            } // ZStack 닫기
+                            // ZStack에 팁 박스 스타일 적용
+                            .frame(width: 300, height: 400)
+                            .background(.white.opacity(0.8))
+                            .background(.black.opacity(0.2))
+                            .cornerRadius(24)
+                            .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 0)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 24)
+                                    .inset(by: 0.5)
+                                    .stroke(.white, lineWidth: 1)
+                            )
+                            .transition(.opacity)
+                            // --- ▲ 오류 수정된 부분 ▲ ---
                         }
-                        .frame(width: 300, height: 400)
-                        .background(.white.opacity(0.8))
-                        .background(.black.opacity(0.2))
-                        .cornerRadius(24)
-                        .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24)
-                                .inset(by: 0.5)
-                                .stroke(.white, lineWidth: 1)
-                        )
-                        .transition(.opacity)
+                        .offset(y: 38)
                     }
-                    .offset(y: 38)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            showCustomAlert = false
+                        }
+                    }
+                    .ignoresSafeArea()
                 }
             }
         )
@@ -150,13 +170,14 @@ struct MainView: View {
         .onAppear {
             print("[MainView] onAppear")
             coordinator.mainViewModel = viewModel
-            viewModel.coordinator = coordinator // 이 줄을 꼭 추가!
+            viewModel.coordinator = coordinator
         }
         .onDisappear {
             print("[MainView] onDisappear")
         }
     }
 }
+
 
 #Preview {
     MainView()
