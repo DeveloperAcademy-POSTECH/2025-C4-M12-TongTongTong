@@ -31,7 +31,7 @@ struct ResultView: View {
                     HapticManager.shared.impact(style: .medium)
                     coordinator.goToContent()
                 }
-                .padding(.bottom, UIConstants.bottomMargin)
+                .padding(.bottom, UIConstants.resultBottomMargin)
             }
         }
         .onAppear {

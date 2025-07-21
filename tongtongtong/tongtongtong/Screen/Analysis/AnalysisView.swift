@@ -22,7 +22,7 @@ struct AnalysisView: View {
         ZStack {
             ZStack {
                 VStack(spacing: UIConstants.mainSpacing) {
-                    Spacer().frame(height: UIConstants.splashTopMargin)
+                    Spacer().frame(height: UIConstants.analysisTopMargin)
                     HStack {
                         Text("주파수 분석중")
                         Image(systemName: "waveform")
