@@ -24,30 +24,6 @@ struct MainView: View {
                 TitleView(isMicActive: viewModel.isMicActive)
                 Spacer()
                 
-                // 3번 인식 안내 텍스트
-                if viewModel.isMicActive {
-                    VStack(spacing: 8) {
-                        Text("\(viewModel.soundCount)/3")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                        
-                        Text("수박을 두드려주세요!")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                        
-#if targetEnvironment(simulator)
-                        if viewModel.showTapInstruction {
-                            Text("(시뮬레이터: 수박을 탭하세요)")
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.white.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                        }
-#endif
-                    }
-                    .padding(.bottom, 20)
-                }
-                
                 WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
                     HapticManager.shared.impact(style: .medium) // 햅틱 피드백 추가
                     viewModel.showMicAlert = true
