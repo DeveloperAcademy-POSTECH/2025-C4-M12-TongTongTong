@@ -27,9 +27,11 @@ struct UIConstants {
     static let resultFontSize: CGFloat = 22
     
     // Margins
-    static let topMargin: CGFloat = 139
-    static let bottomMargin: CGFloat = 80
+    static let topMargin: CGFloat = 141
+    static let bottomMargin: CGFloat = 110
     static let splashTopMargin: CGFloat = 80
+    static let analysisTopMargin: CGFloat = 100
+    static let resultBottomMargin: CGFloat = 64
     
     // Animation
     static let splashInterval: TimeInterval = 0.3

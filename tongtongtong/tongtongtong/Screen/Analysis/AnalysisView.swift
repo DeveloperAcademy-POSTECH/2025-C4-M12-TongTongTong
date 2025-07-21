@@ -11,6 +11,7 @@ import AVFoundation
 struct AnalysisView: View {
     @State private var overlayOffsetX: CGFloat = 190
     @State private var overlayOpacity: Double = 0.8
+    @State private var loadingRotation: Double = 0
     @EnvironmentObject var coordinator: Coordinator
     
     init() {
@@ -21,7 +22,7 @@ struct AnalysisView: View {
         ZStack {
             ZStack {
                 VStack(spacing: UIConstants.mainSpacing) {
-                    Spacer().frame(height: UIConstants.splashTopMargin)
+                    Spacer().frame(height: UIConstants.analysisTopMargin)
                     HStack {
                         Text("주파수 분석중")
                         Image(systemName: "waveform")
@@ -29,39 +30,33 @@ struct AnalysisView: View {
                     .font(.system(size: UIConstants.resultFontSize, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                    
                     ZStack {
-                        VStack {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 280, height: 280)
-                                .background(
-                                    Image("WholeWatermelon")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 600, height: 600)
-                                        .clipped()
-                                        .offset(y: 110)
-                                        .offset(x: 160)
-                                )
-                                .overlay(
-                                    Circle()
-                                        .fill(Color.black.opacity(overlayOpacity))
-                                        .frame(width: 490, height: 1000)
-                                        .offset(x: overlayOffsetX, y: 110)
-                                        .blur(radius: 10)
-                                        .onAppear {
-                                            withAnimation(.easeOut(duration: 3.0)) {
-                                                overlayOffsetX += 200
-                                                overlayOpacity = 0
-                                            }
-                                        }
-                                )
-                                .shadow(color: .white.opacity(0.5), radius: 60, x: 0, y: 0)
-                            Spacer()
+                        Image("WholeWatermelon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 540, height: 540)
+                            .padding(.bottom, 59)
+                        
+                        Image("LoadingShadow")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 472, height: 472)
+                            .rotationEffect(.degrees(loadingRotation))
+                    }
+                    .offset(x: 200)
+                    .offset(y: -48)
+                    .shadow(color: .white.opacity(0.5), radius: 60)
+                    .onAppear {
+                        withAnimation(.easeOut(duration: 3.0)) {
+                            overlayOffsetX += 200
+                            overlayOpacity = 0
+                            loadingRotation = 180
                         }
                     }
                     Spacer()
                 }
+                Spacer()
             }
             
             ZStack {
@@ -113,7 +108,7 @@ struct AnalysisView: View {
                     }
                 }
                 print("[AnalysisView] onAppear")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                     coordinator.goToResult()
                 }
             }
@@ -122,4 +117,5 @@ struct AnalysisView: View {
 }
 #Preview {
     AnalysisView()
+        .environmentObject(Coordinator())
 }
