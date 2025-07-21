@@ -18,30 +18,6 @@ struct MainView: View {
                 TitleView(isMicActive: viewModel.isMicActive)
                 Spacer()
                 
-                // 3번 인식 안내 텍스트
-                if viewModel.isMicActive {
-                    VStack(spacing: 8) {
-                        Text("\(viewModel.soundCount)/3")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                        
-                        Text("수박을 두드려주세요!")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                        
-#if targetEnvironment(simulator)
-                        if viewModel.showTapInstruction {
-                            Text("(시뮬레이터: 수박을 탭하세요)")
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.white.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                        }
-#endif
-                    }
-                    .padding(.bottom, 20)
-                }
-                
                 WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
                     HapticManager.shared.impact(style: .medium) // 햅틱 피드백 추가
                     viewModel.showMicAlert = true
@@ -84,33 +60,33 @@ struct MainView: View {
             Group {
                 if showCustomAlert {
                     ZStack {
-                        Color.black.opacity(0.04)
+                        Color.black.opacity(0.2)
                             .ignoresSafeArea()
-                            .blur(radius: 16)
+                            .contentShape(Rectangle())
+                            .onTapGesture { showCustomAlert = false }
                         
                         VStack {
-                            // --- ▼ 오류 수정된 부분 ▼ ---
                             ZStack {
-                                // 1. 팁 박스 콘텐츠
-                                VStack(spacing: 20) {
+                                VStack {
                                     Text("TIP")
                                         .font(.system(size: 28, weight: .bold))
                                         .multilineTextAlignment(.center)
                                         .foregroundColor(.black)
+                                        .padding(.bottom, 20)
+                                    
                                     Image("HandWM")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: 200)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading, 20)
+                                        .frame(height: 190)
+                                        .padding(.bottom, 10)
+                                    
                                     Text("수박에 iPhone을 가까이 대고\n손 끝으로 세 번 두드리세요")
                                         .font(.system(size: 16, weight: .medium))
                                         .foregroundColor(.black.opacity(0.8))
                                         .multilineTextAlignment(.center)
                                 }
-                                .padding(32)
-
-                                // 2. X 버튼 (콘텐츠와 같은 ZStack 안에 위치)
+                                .padding(16)
+                                
                                 Button(action: {
                                     withAnimation {
                                         showCustomAlert = false
@@ -119,13 +95,11 @@ struct MainView: View {
                                     Image(systemName: "xmark")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.black.opacity(0.6))
-                                        .padding()
+                                        .padding(16)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                                .padding(.trailing, 5)
-                                
-                            } // ZStack 닫기
-                            // ZStack에 팁 박스 스타일 적용
+                                .padding()
+                            }
                             .frame(width: 300, height: 400)
                             .background(.white.opacity(0.8))
                             .background(.black.opacity(0.2))
@@ -134,17 +108,14 @@ struct MainView: View {
                             .overlay(
                                 RoundedRectangle(cornerRadius: 24)
                                     .inset(by: 0.5)
-                                    .stroke(.white, lineWidth: 1)
+                                    .stroke(.white.opacity(0.8), lineWidth: 1)
                             )
                             .transition(.opacity)
-                            // --- ▲ 오류 수정된 부분 ▲ ---
                         }
-                        .offset(y: 38)
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation {
-                            showCustomAlert = false
+                        .onTapGesture {
+                            withAnimation {
+                                showCustomAlert = false
+                            }
                         }
                     }
                     .ignoresSafeArea()

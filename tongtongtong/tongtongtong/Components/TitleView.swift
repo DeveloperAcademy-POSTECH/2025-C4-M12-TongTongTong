@@ -39,7 +39,11 @@ struct TitleView: View {
             }
             
             if !isMicActive {
-                Text("수박을 눌러 분석을 시작해주세요")
+                Text("수박을 눌러 녹음을 시작해주세요")
+                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+                    .foregroundColor(.white)
+            } else {
+                Text("손 끝으로 수박을 세 번 두드려주세요")
                     .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
                     .foregroundColor(.white)
             }

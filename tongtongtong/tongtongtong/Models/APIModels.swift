@@ -15,7 +15,7 @@ struct ServerHealthResponse: Codable {
 struct PredictionResponse: Codable {
     let success: Bool
     let filename: String
-    let prediction: Int
+    let prediction: Double
     let result: String
     let confidence: Double
 }
