@@ -1,3 +1,5 @@
+import SwiftUI
+
 final class AnalysisViewModel: ObservableObject {
     @Published var overlayOffsetX: CGFloat = 190
     @Published var overlayOpacity: Double = 0.8

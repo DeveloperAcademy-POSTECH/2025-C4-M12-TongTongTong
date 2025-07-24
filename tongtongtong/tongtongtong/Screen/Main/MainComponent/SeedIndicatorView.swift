@@ -1,10 +1,3 @@
-//
-//  SeedIndicatorView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
-
 import SwiftUI
 
 struct SeedIndicatorView: View {

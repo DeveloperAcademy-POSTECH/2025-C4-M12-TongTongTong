@@ -1,10 +1,4 @@
-//
-//  WaveCircleView 2.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/24/25.
-//
-
+import SwiftUI
 
 /// 여러 파동을 쌓아주는 뷰
 struct WaveCircleView: View {

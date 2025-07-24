@@ -1,6 +1,8 @@
+import SwiftUI
+
 // MARK: - 하단 콘텐츠 뷰
-private struct BottomContentView: View {
-    @ObservedObject var viewModel: ContentViewModel
+struct BottomContentView: View {
+    @ObservedObject var viewModel: MainViewModel
     let isTransitioning: Bool
     
     var body: some View {
@@ -20,3 +22,4 @@ private struct BottomContentView: View {
         }
     }
 }
+

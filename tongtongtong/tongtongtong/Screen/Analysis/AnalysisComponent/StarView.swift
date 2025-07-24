@@ -1,12 +1,4 @@
-//
-//  StarView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/13/25.
-//
-
 import SwiftUI
-
 
 struct StarView: View {
     var imageName: String
