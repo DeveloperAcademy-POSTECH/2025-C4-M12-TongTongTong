@@ -80,7 +80,7 @@ struct ColorConstants {
 
 // MARK: - Audio Constants
 struct AudioConstants {
-    static let threshold: Float = -30 // dB
+    static let threshold: Float = -18 // dB
     static let bufferSize: AVAudioFrameCount = 1024
     static let busIndex: Int = 0
     static let cooldownDuration: TimeInterval = 0.1 // 연속 인식 방지를 위한 쿨다운 시간
