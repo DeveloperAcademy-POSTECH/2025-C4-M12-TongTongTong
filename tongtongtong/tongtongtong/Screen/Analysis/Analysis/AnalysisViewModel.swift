@@ -1,52 +1,60 @@
 import SwiftUI
+import AVFoundation
 
-final class AnalysisViewModel: ObservableObject {
-    @Published var overlayOffsetX: CGFloat = 190
+class AnalysisViewModel: ObservableObject {
     @Published var overlayOpacity: Double = 0.8
     @Published var loadingRotation: Double = 0
-
-    let coordinator: Coordinator
-
+    
+    internal(set) var coordinator: Coordinator
+    private var animationStarted = false
+    
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
     }
-
-    func startAnimation() {
-        withAnimation(.easeOut(duration: UIConstants.analysisAnimationDuration)) {
-            overlayOffsetX += 200
-            overlayOpacity = 0
-            loadingRotation = 180
-        }
+    
+    func setCoordinator(_ coordinator: Coordinator) {
+        self.coordinator = coordinator
     }
-
-    func startAnalysis() {
-        print("[AnalysisView] onAppear - 서버 분석 시작")
+    
+    func onAppear() {
+        guard !animationStarted else { return }
+        animationStarted = true
+        print("[AnalysisViewModel] onAppear - 서버 분석 시작")
         guard let url = coordinator.resultState.audioFileURL else {
-            print("[AnalysisView] 오디오 파일 없음")
+            print("[AnalysisViewModel] 오디오 파일 없음")
             return
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.analysisDelayBeforeRequest) {
+        // 3초간 로딩 화면 노출 후 서버 호출
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            self?.startAnimation()
             WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let response):
                         print("[API] 예측 성공: \(response)")
-                        self.coordinator.resultState.update(with: response)
-                        self.coordinator.goToResult()
+                        self?.coordinator.resultState.update(with: response)
+                        self?.coordinator.goToResult()
                     case .failure(let error):
                         print("[API] 예측 실패: \(error)")
+                        // 에러 처리 필요시 추가
                     }
                 }
             }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.analysisAutoTransitionDelay) {
-                self.coordinator.goToResult()
+            print("[AnalysisViewModel] onAppear")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                self?.coordinator.goToResult()
             }
         }
     }
-
-    func handleDisappear() {
-        print("[AnalysisView] onDisappear")
+    
+    func startAnimation() {
+        withAnimation(.easeOut(duration: 3.0)) {
+            self.overlayOpacity = 0
+            self.loadingRotation = 180
+        }
     }
-}
+    
+    func onDisappear() {
+        print("[AnalysisViewModel] onDisappear")
+    }
+} 

@@ -1,15 +1,24 @@
+//
+//  ContentView.swift
+//  tongtongtong
+//
+//  Created by cheshire on 7/8/25.
+//
+
 import SwiftUI
 import AVFoundation
 
 struct AnalysisView: View {
-    @StateObject private var viewModel: AnalysisViewModel
     @EnvironmentObject var coordinator: Coordinator
+    @StateObject private var viewModel: AnalysisViewModel
 
-    init(coordinator: Coordinator) {
-        _viewModel = StateObject(wrappedValue: AnalysisViewModel(coordinator: coordinator))
+    init() {
+        _viewModel = StateObject(wrappedValue: AnalysisViewModel(coordinator: Coordinator()))
+        print("[AnalysisView] init")
     }
 
     var body: some View {
+        let _ = updateViewModelCoordinatorIfNeeded()
         ZStack {
             ZStack {
                 VStack(spacing: UIConstants.mainSpacing) {
@@ -37,12 +46,10 @@ struct AnalysisView: View {
                             .offset(x: 2.5)
                             .offset(y: -1.5)
                     }
-                    .offset(x: viewModel.overlayOffsetX)
+                    // .offset(x: viewModel.overlayOffsetX) 삭제
+                    .offset(x: 200)
                     .offset(y: -48)
                     .shadow(color: .white.opacity(0.5), radius: 60)
-                    .onAppear {
-                        viewModel.startAnimation()
-                    }
                     Spacer()
                 }
                 Spacer()
@@ -73,14 +80,22 @@ struct AnalysisView: View {
         )
         .ignoresSafeArea()
         .onDisappear {
-            viewModel.handleDisappear()
+            viewModel.onDisappear()
         }
         .onAppear {
-            viewModel.startAnimation()
-            viewModel.startAnalysis()
+            viewModel.onAppear()
+        }
+    }
+
+    private func updateViewModelCoordinatorIfNeeded() {
+        // coordinator가 변경되었을 때 viewModel에 주입
+        if viewModel.coordinator !== coordinator {
+            viewModel.setCoordinator(coordinator)
         }
     }
 }
+
 #Preview {
-    AnalysisView(coordinator: Coordinator())
+    AnalysisView()
+        .environmentObject(Coordinator())
 }
