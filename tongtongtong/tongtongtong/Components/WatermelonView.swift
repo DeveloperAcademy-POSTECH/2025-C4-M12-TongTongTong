@@ -30,23 +30,34 @@ struct WatermelonView: View {
                 }
             }
             
-            Circle()
-                .frame(width: 220, height: 220)
-                .foregroundStyle(Color.white)
-                .scaleEffect(!isMicActive ? (pulse ? 1.04 : 0.96) : 1)
-                .animation(!isMicActive ? Animation.easeInOut(duration: 1.2).repeatForever(autoreverses: true) : .default, value: pulse)
-                .overlay(
-                    Image("WholeWatermelon")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: UIConstants.watermelonSize, height: UIConstants.watermelonSize)
-                        .padding(.bottom, 2)
+            ZStack {
+                WaveCircleView(
+                    color: .white.opacity(0.7),
+                    count: 2,
+                    duration: 2.5,
+                    spacing: 1.25
                 )
-                .onTapGesture {
-                    if !isMicActive {
-                        onTap()
+                
+                Circle()
+                    .frame(width: 220, height: 220)
+                    .foregroundStyle(Color.white)
+                    .scaleEffect(!isMicActive ? (pulse ? 1.04 : 0.96) : 1)
+                    .animation(!isMicActive ? Animation.easeInOut(duration: 1.2).repeatForever(autoreverses: true) : .default, value: pulse)
+                    .overlay(
+                        Image("WholeWatermelon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIConstants.watermelonSize, height: UIConstants.watermelonSize)
+                            .padding(.bottom, 2)
+                            .scaleEffect(!isMicActive ? (pulse ? 1.04 : 0.96) : 1)
+                            .animation(!isMicActive ? Animation.easeInOut(duration: 1.2).repeatForever(autoreverses: true) : .default, value: pulse)
+                    )
+                    .onTapGesture {
+                        if !isMicActive {
+                            onTap()
+                        }
                     }
-                }
+            }
         }
         .onAppear {
             if !isMicActive {

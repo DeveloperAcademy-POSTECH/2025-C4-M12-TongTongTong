@@ -43,6 +43,8 @@ struct AnalysisView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 472, height: 472)
                             .rotationEffect(.degrees(loadingRotation))
+                            .offset(x: 2.5)
+                            .offset(y: -1.5)
                     }
                     .offset(x: 200)
                     .offset(y: -48)
