@@ -10,7 +10,7 @@ import SwiftUI
 struct TitleView: View {
     @EnvironmentObject var coordinator: Coordinator
     let isMicActive: Bool
-    @State private var tapCount = 0
+    let isTransitioning: Bool
     
     var body: some View {
         VStack {

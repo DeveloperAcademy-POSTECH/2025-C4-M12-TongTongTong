@@ -5,6 +5,7 @@ struct MainView: View {
     @StateObject private var viewModel = ContentViewModel()
     @EnvironmentObject var coordinator: Coordinator
     @State private var showCustomAlert = true
+    @State private var isTransitioning = false
     
     init() {
         print("[MainView] init")
@@ -14,6 +15,7 @@ struct MainView: View {
         ZStack {
             VStack {
                 Spacer().frame(height: UIConstants.mainTopMargin)
+              
                 WatermelonView(isMicActive: viewModel.isMicActive, isRedBackground: viewModel.isRedBackground) {
                     HapticManager.shared.impact(style: .medium) // 햅틱 피드백 추가
                     viewModel.showMicAlert = true
@@ -32,6 +34,7 @@ struct MainView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인") {
                         viewModel.startMicMonitoring {
+                            isTransitioning = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { coordinator.goToRecordingComplete()
                             }
                         }
@@ -85,7 +88,6 @@ struct MainView: View {
         }
     }
 }
-
 
 #Preview {
     MainView()
