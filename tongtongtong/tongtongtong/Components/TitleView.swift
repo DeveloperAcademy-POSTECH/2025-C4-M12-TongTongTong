@@ -13,45 +13,47 @@ struct TitleView: View {
     @State private var tapCount = 0
     
     var body: some View {
-        VStack(spacing: UIConstants.titleSpacing) {
-            HStack(spacing: UIConstants.circleSpacing) {
-                ForEach(0..<3) { _ in
-                    VStack(spacing: 0) {
-                        Circle()
-                            .frame(width: UIConstants.circleDotSize, height: UIConstants.circleDotSize)
-                            .foregroundColor(.white)
-                        Text("통")
-                            .font(.system(size: UIConstants.titleFontSize, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-                }
-            }
-            .onTapGesture {
-                tapCount += 1
-                if tapCount >= 3 {
-                    // 디버그 모드 토글
-                    if let mainViewModel = coordinator.mainViewModel {
-                        mainViewModel.showDebugOverlay.toggle()
-                        HapticManager.shared.impact(style: .medium)
-                    }
-                    tapCount = 0
-                }
-            }
-            
+        VStack {
             if !isMicActive {
-                Text("수박을 눌러 녹음을 시작해주세요")
-                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
-                    .foregroundColor(.white)
+                VStack(spacing: 4){
+                    Image(systemName: "waveform")
+                        .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                    VStack(spacing: 3){
+                        Text("녹음 시작")
+                            .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                        Text("가운데 수박 버튼을 탭하세요")
+                            .font(.system(size: UIConstants.subtitleFontSize, weight: .regular))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white.opacity(0.72))
+                    }
+                }
             } else {
-                Text("손 끝으로 수박을 세 번 두드려주세요")
-                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
-                    .foregroundColor(.white)
+                VStack(spacing: 4){
+                    Image(systemName: "hand.wave.fill")
+                        .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                    VStack(spacing: 3){
+                        Text("통통통")
+                            .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                        Text("손 끝을 모아서 수박을 세 번 두드리세요")
+                            .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white.opacity(0.72))
+                    }
+                }
             }
         }
     }
 }
 
 #Preview {
-    TitleView(isMicActive: false)
+    TitleView(isMicActive: true)
         .background(Color.blue)
 }
