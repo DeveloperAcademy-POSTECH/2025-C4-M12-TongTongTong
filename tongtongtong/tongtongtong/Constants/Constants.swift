@@ -46,6 +46,10 @@ struct UIConstants {
     static let redBackgroundDuration: TimeInterval = 3.0
     static let micMonitoringDuration: TimeInterval = 3.0
     static let splashDisplayDuration: TimeInterval = 2.0
+    
+    static let analysisAnimationDuration: TimeInterval = 3.0
+    static let analysisDelayBeforeRequest: TimeInterval = 3.0
+    static let analysisAutoTransitionDelay: TimeInterval = 4.0
 }
 
 // MARK: - Color Constants

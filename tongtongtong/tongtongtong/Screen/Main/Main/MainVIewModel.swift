@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-class ContentViewModel: ObservableObject {
+class MainViewModel: ObservableObject {
     @Published var highlightIndex = 0
     @Published var isRedBackground = false
     @Published var showMicAlert = false

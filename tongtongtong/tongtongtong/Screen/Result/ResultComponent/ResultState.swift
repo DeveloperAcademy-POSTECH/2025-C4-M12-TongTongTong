@@ -1,10 +1,3 @@
-//
-//  ResultState.swift
-//  tongtongtong
-//
-//  Created by 조유진 on 7/20/25.
-//
-
 import SwiftUI
 
 class ResultState: ObservableObject {
