@@ -22,8 +22,9 @@ struct UIConstants {
     static let splashCircleSize: CGFloat = 8
     
     // Fonts
-    static let titleFontSize: CGFloat = 34
-    static let subtitleFontSize: CGFloat = 20
+    static let completeTitleFontSize: CGFloat =  34
+    static let titleFontSize: CGFloat = 22
+    static let subtitleFontSize: CGFloat = 18
     static let resultFontSize: CGFloat = 22
     
     // Margins
@@ -32,6 +33,7 @@ struct UIConstants {
     static let splashTopMargin: CGFloat = 80
     static let analysisTopMargin: CGFloat = 100
     static let resultBottomMargin: CGFloat = 64
+    static let mainTopMargin: CGFloat = 256
     
     // Animation
     static let splashInterval: TimeInterval = 0.3
@@ -52,12 +54,13 @@ struct ColorConstants {
     static let greenGradientEnd = Color(red: 0.24, green: 0.45, blue: 0.02)
     
     // Blue Theme
-    static let blueGradientStart = Color(red: 0.08, green: 0.58, blue: 0.9)
-    static let blueGradientEnd = Color(red: 0.2, green: 0.81, blue: 1)
+    static let blueGradientStart = Color(red: 0.2, green: 0.81, blue: 1)
+    static let blueGradientEnd = Color(red: 0.08, green: 0.58, blue: 0.9)
     
     // Red Theme
-    static let redGradientStart = Color(red: 1, green: 0.32, blue: 0.32)
-    static let redGradientEnd = Color(red: 1, green: 0.55, blue: 0.32)
+    static let redGradientStart = Color(red: 1, green: 1, blue: 0.97)
+    static let redGradientMedium = Color(red: 1, green: 0.33, blue: 0.23)
+    static let redGradientEnd = Color(red: 0.91, green: 0.22, blue: 0.11)
     
     // Wave Colors
     static let waveGreen1 = Color(red: 0.22, green: 0.52, blue: 0.12)
