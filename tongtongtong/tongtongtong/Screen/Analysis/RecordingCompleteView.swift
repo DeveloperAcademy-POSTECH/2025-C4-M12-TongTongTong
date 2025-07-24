@@ -5,20 +5,25 @@ struct RecordingCompleteView: View {
     
     var body: some View {
         VStack {
-            Spacer().frame(height: UIConstants.topMargin)
-            // 추후 TitleView 컴포넌트 리팩토링
-            VStack(spacing: UIConstants.titleSpacing) {
-                Text("녹음 완료")
-                    .font(.system(size: UIConstants.titleFontSize, weight: .bold))
-                Text("주파수 분석을 시작할게요")
-                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
-            }
-            .foregroundColor(.white)
-            Spacer()
+            Spacer().frame(height: UIConstants.mainTopMargin)
+            
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(.white)
-                .font(.system(size: 122))
+                .font(.system(size: 124))
             
+            Spacer().frame(height: 106)
+            
+            VStack(spacing: UIConstants.titleSpacing) {
+                Text("녹음 완료")
+                    .font(.system(size: UIConstants.completeTitleFontSize, weight: .bold))
+                    .kerning(0.4)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                Text("주파수 분석을 시작할게요")
+                    .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white.opacity(0.72))
+            }
             Spacer()
             SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
                 .padding(.bottom, UIConstants.bottomMargin)
@@ -27,9 +32,9 @@ struct RecordingCompleteView: View {
         .background(
             LinearGradient(
                 stops: [
-                    Gradient.Stop(color: Color(red: 1, green: 1, blue: 0.97), location: 0.00),
-                    Gradient.Stop(color: Color(red: 1, green: 0.33, blue: 0.23).opacity(0.9), location: 0.20),
-                    Gradient.Stop(color: Color(red: 0.91, green: 0.22, blue: 0.11).opacity(0.9), location: 1.00),
+                    .init(color: ColorConstants.redGradientStart, location: 0.00),
+                    .init(color: ColorConstants.redGradientMedium, location: 0.20),
+                    .init(color: ColorConstants.redGradientEnd, location: 1.00)
                 ],
                 startPoint: UnitPoint(x: 0.5, y: 0),
                 endPoint: UnitPoint(x: 0.5, y: 1)
@@ -43,7 +48,7 @@ struct RecordingCompleteView: View {
         }
     }
 }
-    
-    #Preview {
-        RecordingCompleteView().environmentObject(Coordinator())
-    }
+
+#Preview {
+    RecordingCompleteView().environmentObject(Coordinator())
+}
