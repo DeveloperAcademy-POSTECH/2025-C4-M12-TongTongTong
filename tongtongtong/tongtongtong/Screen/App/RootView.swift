@@ -14,6 +14,8 @@ struct RootView: View {
         switch coordinator.currentScreen {
         case .splash:
             SplashView()
+        case .onboarding:
+            OnboardingContainerView()
         case .content:
             MainView()
         case .analysis:

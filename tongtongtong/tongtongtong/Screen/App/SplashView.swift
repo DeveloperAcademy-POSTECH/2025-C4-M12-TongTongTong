@@ -59,8 +59,9 @@ struct SplashView: View {
             }
             // splashDisplayDuration 후 coordinator 상태 변경
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
+                print("[SplashView] 2초 지연 시간 종료. 화면 전환을 요청합니다.")
                 HapticManager.shared.impact(style: .medium)
-                coordinator.goToContent()
+                coordinator.splashDidFinish()
             }
         }
         .onDisappear {
