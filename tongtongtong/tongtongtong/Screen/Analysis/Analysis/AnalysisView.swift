@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -46,10 +39,12 @@ struct AnalysisView: View {
                             .offset(x: 2.5)
                             .offset(y: -1.5)
                     }
-                    // .offset(x: viewModel.overlayOffsetX) 삭제
                     .offset(x: 200)
                     .offset(y: -48)
                     .shadow(color: .white.opacity(0.5), radius: 60)
+                    .onAppear {
+                        viewModel.startAnimation()
+                    }
                     Spacer()
                 }
                 Spacer()

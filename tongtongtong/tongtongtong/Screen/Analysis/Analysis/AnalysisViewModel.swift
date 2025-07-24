@@ -26,7 +26,6 @@ class AnalysisViewModel: ObservableObject {
         }
         // 3초간 로딩 화면 노출 후 서버 호출
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            self?.startAnimation()
             WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
                 DispatchQueue.main.async {
                     switch result {
