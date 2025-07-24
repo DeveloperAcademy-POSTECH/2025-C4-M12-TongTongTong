@@ -12,7 +12,7 @@ struct RootView: View {
         case .content:
             MainView()
         case .analysis:
-            AnalysisView(coordinator: coordinator)
+            AnalysisView()
         case .result:
             ResultView()
                 .environmentObject(coordinator)
