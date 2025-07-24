@@ -53,7 +53,3 @@ struct TitleView: View {
     }
 }
 
-#Preview {
-    TitleView(isMicActive: true)
-        .background(Color.blue)
-}

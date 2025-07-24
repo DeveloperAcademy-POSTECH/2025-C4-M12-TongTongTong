@@ -43,14 +43,7 @@ struct MainView: View {
                     Text("수박을 3번 두드려서 소리를 감지합니다.\n크게 두드려 주세요!")
                 }
                 Spacer()
-                VStack {
-                    TitleView(isMicActive: viewModel.isMicActive)
-                    Spacer()
-                    if viewModel.isMicActive {
-                        SeedIndicatorView(highlightIndex: viewModel.highlightIndex, indicatorCount: viewModel.indicatorCount)
-                            .padding(.bottom, UIConstants.bottomMargin)
-                    }
-                }
+                BottomContentView(viewModel: viewModel, isTransitioning: isTransitioning)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .zIndex(0)
@@ -85,6 +78,29 @@ struct MainView: View {
         }
         .onDisappear {
             print("[MainView] onDisappear")
+        }
+    }
+}
+
+// MARK: - 하단 콘텐츠 뷰
+private struct BottomContentView: View {
+    @ObservedObject var viewModel: ContentViewModel
+    let isTransitioning: Bool
+    
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                TitleView(isMicActive: viewModel.isMicActive, isTransitioning: isTransitioning)
+                Spacer()
+                if viewModel.isMicActive {
+                    VStack {
+                        SeedIndicatorView(highlightIndex: viewModel.highlightIndex, indicatorCount: viewModel.indicatorCount)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
+                }
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }
 }

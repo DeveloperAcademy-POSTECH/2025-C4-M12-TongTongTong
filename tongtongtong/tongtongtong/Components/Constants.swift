@@ -34,6 +34,7 @@ struct UIConstants {
     static let analysisTopMargin: CGFloat = 100
     static let resultBottomMargin: CGFloat = 64
     static let mainTopMargin: CGFloat = 256
+    static let seedIndicatorBottomMargin: CGFloat = 20 // 인디케이터 하단 여백
     
     // Animation
     static let splashInterval: TimeInterval = 0.3
