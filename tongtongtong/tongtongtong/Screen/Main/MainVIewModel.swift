@@ -82,16 +82,7 @@ class ContentViewModel: ObservableObject {
                     // 디버그 모드에서는 아무 동작도 하지 않음 (isMicActive false로 만들지 않음)
                     return
                 } else {
-                    if let buffer = self?.audioMonitor.latestBuffer {
-                        do {
-                            let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
-                            try AudioBufferExport.writeWAV(buffer: buffer, to: url)
-                            self?.coordinator?.resultState.audioFileURL = url // 오디오 파일 경로 저장
-                        } catch {
-                            print("[API] 파일 저장 실패: \(error)")
-                        }
-                    }
-                    
+                    // 로컬 분석이므로 파일 저장은 필요 없지만, 다음 화면으로 넘어가기 위한 completion() 호출은 유지합니다.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                         guard let self = self else { return }
                         self.showTapInstruction = false
@@ -179,4 +170,3 @@ class ContentViewModel: ObservableObject {
         stopDebugTimer()
     }
 }
-

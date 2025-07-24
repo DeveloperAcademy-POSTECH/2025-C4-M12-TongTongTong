@@ -10,7 +10,7 @@ import SwiftUI
 class ResultState: ObservableObject {
     @Published var confidence: Double = 0
     @Published var result: String = "높음"
-    var audioFileURL: URL? = nil // 서버 분석용 오디오 파일 경로 임시 저장
+    var audioFileURL: URL? = nil // 서버 분석용 오디오 파일 경로 임시 저장 (더 이상 사용 안함)
     
     var isRipe: Bool {
         result == "높음" && confidence >= 0
@@ -37,7 +37,8 @@ class ResultState: ObservableObject {
     func update(with prediction: PredictionResponse) {
         print("[DEBUG] update(with:) - 받아온 prediction.result: \(prediction.result), prediction.confidence: \(prediction.confidence)")
         self.confidence = prediction.confidence
-        self.result = prediction.result
+        // 로컬 모델의 결과("음이 높은", "음이 낮은")에서 "음이 " 부분을 제거합니다.
+        self.result = prediction.result.replacingOccurrences(of: "음이 ", with: "")
         print("[DEBUG] update(with:) - 저장된 result: \(self.result), confidence: \(self.confidence)")
     }
 

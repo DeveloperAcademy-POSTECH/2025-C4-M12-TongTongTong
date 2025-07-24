@@ -36,9 +36,11 @@ struct MainView: View {
                 .alert("마이크를 켜시겠습니까?", isPresented: $viewModel.showMicAlert) {
                     Button("취소", role: .cancel) {}
                     Button("확인") {
+                        
                         viewModel.startMicMonitoring {
                             isTransitioning = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { coordinator.goToRecordingComplete()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                coordinator.goToRecordingComplete()
                             }
                         }
                     }
@@ -149,9 +151,4 @@ struct MainView: View {
             print("[MainView] onDisappear")
         }
     }
-}
-
-#Preview {
-    MainView()
-        .environmentObject(Coordinator())
 }

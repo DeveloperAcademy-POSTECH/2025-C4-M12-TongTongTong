@@ -24,16 +24,16 @@ class SoundClassifier: ObservableObject {
 
     // createML로 만든 Core ML 모델을 번들에서 불러옵니다
     private func loadModel() {
-        // 모델 파일(.mlmodelc) 경로 찾기
-        guard let url = Bundle.main.url(forResource: "SoundWaterMelon 11", withExtension: "mlmodelc") else {
-            print("⚠️ SoundWaterMelonETC.mlmodelc 파일을 찾을 수 없습니다.")
+        // 모델 파일(.mlmodelc) 경로 찾기 (수정된 부분)
+        guard let url = Bundle.main.url(forResource: "SoundWaterMelon 2424", withExtension: "mlmodelc") else {
+            print("⚠️ SoundWaterMelon.mlmodelc 파일을 찾을 수 없습니다.")
             return
         }
         print("[DEBUG] 모델 경로: \(url)")
         do {
             // 모델 로드 시도
             model = try MLModel(contentsOf: url)
-            print("✅ SoundWaterMelonETC 모델 로드 성공")
+            print("✅ SoundWaterMelon 모델 로드 성공")
         } catch {
             print("❌ 모델 로드 실패: \(error)")
         }
@@ -151,4 +151,4 @@ class SoundClassifier: ObservableObject {
             classLabels[2]: probs[2]
         ]
     }
-} 
+}
