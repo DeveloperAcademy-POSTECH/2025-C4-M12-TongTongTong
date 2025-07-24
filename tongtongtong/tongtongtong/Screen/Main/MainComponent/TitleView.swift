@@ -1,10 +1,3 @@
-//
-//  TitleView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
-
 import SwiftUI
 
 struct TitleView: View {
@@ -53,7 +46,3 @@ struct TitleView: View {
     }
 }
 
-#Preview {
-    TitleView(isMicActive: true)
-        .background(Color.blue)
-}

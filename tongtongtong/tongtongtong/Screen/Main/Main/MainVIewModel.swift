@@ -1,14 +1,7 @@
-//
-//  MainViewModel.swift
-//  tongtongtong
-//
-//  Created by Leo on 7/9/25.
-//
-
 import Foundation
 import AVFoundation
 
-class ContentViewModel: ObservableObject {
+class MainViewModel: ObservableObject {
     @Published var highlightIndex = 0
     @Published var isRedBackground = false
     @Published var showMicAlert = false
@@ -38,7 +31,7 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Weak reference to the Coordinator for navigation and state updates
     weak var coordinator: Coordinator?
 
@@ -46,7 +39,7 @@ class ContentViewModel: ObservableObject {
     let audioMonitor = AudioLevelMonitor()
     let soundClassifier = SoundClassifier()
     private var debugTimer: Timer?
-    
+
     func startMicMonitoring(completion: @escaping () -> Void) {
         print("[DEBUG] 마이크 모니터링 시작")
         // 디버그 모드에서는 3회 감지 후에도 모니터링을 멈추지 않도록 설정
@@ -55,7 +48,7 @@ class ContentViewModel: ObservableObject {
         soundCount = 0
         audioMonitor.reset()
         audioMonitor.setSoundClassifier(soundClassifier)
-        
+
         // 소리 카운트 변경 시 UI 업데이트
         audioMonitor.onSoundCountChanged = { count in
             DispatchQueue.main.async {
@@ -73,7 +66,7 @@ class ContentViewModel: ObservableObject {
                 }
             }
         }
-        
+
         // 3번 인식 완료 시
         audioMonitor.onThreeSoundsDetected = { [weak self] in
             DispatchQueue.main.async {
@@ -91,7 +84,7 @@ class ContentViewModel: ObservableObject {
                             print("[API] 파일 저장 실패: \(error)")
                         }
                     }
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                         guard let self = self else { return }
                         self.showTapInstruction = false
@@ -101,21 +94,21 @@ class ContentViewModel: ObservableObject {
                 }
             }
         }
-        
+
         // 개별 소리 인식 시 (기존 호환성)
         audioMonitor.onLoudSound = {
             if self.showDebugOverlay { return }
             print("[DEBUG] 소리 감지됨 (onLoudSound)")
         }
-        
+
         audioMonitor.startMonitoring()
-        
+
         // 시뮬레이터에서 탭 안내 표시
 #if targetEnvironment(simulator)
         showTapInstruction = true
 #endif
     }
-    
+
     // 디버그 모드: 0.5초마다 자동 분석
     private func startDebugTimer() {
         stopDebugTimer()
@@ -137,7 +130,7 @@ class ContentViewModel: ObservableObject {
             print("[DEBUG] 오디오 버퍼 없음 (자동 분석 skip)")
         }
     }
-    
+
     // 시뮬레이터용 탭 처리
     func handleSimulatorTap(completion: @escaping () -> Void) {
 #if targetEnvironment(simulator)
@@ -146,17 +139,17 @@ class ContentViewModel: ObservableObject {
             print("[DEBUG] 시뮬레이터 탭 감지")
             // 더미 소리 분류 수행
             soundClassifier.classifyDummySound()
-            
+
             HapticManager.shared.impact(style: .medium)
-            
+
             soundCount += 1
             highlightIndex = soundCount - 1
             isRedBackground = true
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.redBackgroundDuration) {
                 self.isRedBackground = false
             }
-            
+
             if soundCount >= 3 {
                 if showDebugOverlay { return }
                 HapticManager.shared.notification(type: .success)
@@ -170,7 +163,7 @@ class ContentViewModel: ObservableObject {
         }
 #endif
     }
-    
+
     func stopMonitoring() {
         print("[DEBUG] 마이크 모니터링 중지")
         audioMonitor.stopMonitoring()

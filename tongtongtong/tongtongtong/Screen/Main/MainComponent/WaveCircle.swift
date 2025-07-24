@@ -1,11 +1,3 @@
-//
-//  WaveCircle.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
-
-
 import SwiftUI
 import AVFoundation
 

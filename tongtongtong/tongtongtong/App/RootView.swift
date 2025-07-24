@@ -1,10 +1,3 @@
-//
-//  RootView.swift
-//  tongtongtong
-//
-//  Created by cheshire on 7/8/25.
-//
-
 import SwiftUI
 
 struct RootView: View {
@@ -19,7 +12,7 @@ struct RootView: View {
         case .content:
             MainView()
         case .analysis:
-            AnalysisView()
+            AnalysisView(coordinator: coordinator)
         case .result:
             ResultView()
                 .environmentObject(coordinator)

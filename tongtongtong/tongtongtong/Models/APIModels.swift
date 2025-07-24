@@ -1,10 +1,3 @@
-//
-//  APIModels.swift
-//  mel-audio-features
-//
-//  Created by 조유진 on 7/15/25.
-//
-
 import Foundation
 
 struct ServerHealthResponse: Codable {

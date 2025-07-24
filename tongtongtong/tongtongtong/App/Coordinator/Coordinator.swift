@@ -12,7 +12,7 @@ class Coordinator: ObservableObject {
     }
 
     @Published var currentScreen: Screen = .splash
-    var mainViewModel: ContentViewModel?
+    var mainViewModel: MainViewModel?
     @Published var resultState = ResultState()
 
     // --- 추가된 부분: 온보딩 완료 여부 저장 ---

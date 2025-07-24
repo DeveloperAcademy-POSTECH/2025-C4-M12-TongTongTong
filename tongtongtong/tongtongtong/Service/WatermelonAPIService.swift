@@ -1,10 +1,3 @@
-//
-//  WatermelonAPIService.swift
-//  tongtongtong
-//
-//  Created by 조유진 on 7/17/25.
-//
-
 import Foundation
 import AVFoundation
 
@@ -152,15 +145,6 @@ class WatermelonAPIService {
             return "audio/mpeg"
         default:
             return "application/octet-stream"
-        }
-    }
-}
-
-// MARK: - Data Extension
-extension Data {
-    mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            append(data)
         }
     }
 }
