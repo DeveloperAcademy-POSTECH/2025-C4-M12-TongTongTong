@@ -2,15 +2,14 @@ import SwiftUI
 
 struct WatermelonView: View {
     let isMicActive: Bool
-    let isRedBackground: Bool
-    let onTap: () -> Void
+    var onTap: (() -> Void)? = nil
     
     @State private var pulse = false
     
     var body: some View {
         ZStack {
             if isMicActive {
-                let waveConfigs = isRedBackground ? WaveCircleConfig.redWaves : WaveCircleConfig.blueWaves
+                let waveConfigs = WaveCircleConfig.redWaves
                 
                 ForEach(Array(waveConfigs.enumerated()), id: \.offset) { _, config in
                     WaveCircle(
@@ -24,7 +23,7 @@ struct WatermelonView: View {
             }
             
             ZStack {
-                WaveCircleView(
+                RippleCirclesView(
                     color: .white.opacity(0.7),
                     count: 2,
                     duration: 2.5,
@@ -47,7 +46,7 @@ struct WatermelonView: View {
                     )
                     .onTapGesture {
                         if !isMicActive {
-                            onTap()
+                            onTap?()
                         }
                     }
             }
@@ -69,11 +68,4 @@ struct WatermelonView: View {
             }
         }
     }
-}
-
-#Preview {
-    WatermelonView(isMicActive: false, isRedBackground: false) {
-        print("Watermelon tapped")
-    }
-    .background(Color.blue)
 }
