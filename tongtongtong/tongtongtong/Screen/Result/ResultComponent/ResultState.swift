@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 class ResultState: ObservableObject {
     @Published var confidence: Double = 0
@@ -27,10 +28,22 @@ class ResultState: ObservableObject {
         isRipe ? .ripe : .unripe
     }
     
-    func update(with prediction: PredictionResponse) {
-        print("[DEBUG] update(with:) - 받아온 prediction.result: \(prediction.result), prediction.confidence: \(prediction.confidence)")
-        self.confidence = prediction.confidence
-        self.result = prediction.result
+    func update(predicted_class: Int, probabilities: [String: Double], confidence: Double) {
+        print("[DEBUG] update(with:) - 받아온 predicted_class: \(predicted_class), probabilities: \(probabilities)")
+        
+        switch predicted_class {
+        case 0:
+            self.result = "낮음"
+        case 1:
+            self.result = "중간"
+        case 2:
+            self.result = "높음"
+        default:
+            self.result = "알 수 없음"
+        }
+        
+        self.confidence = confidence
+        
         print("[DEBUG] update(with:) - 저장된 result: \(self.result), confidence: \(self.confidence)")
     }
 
@@ -38,6 +51,9 @@ class ResultState: ObservableObject {
         print("[DEBUG] resultImageName 호출 - result: \(result)")
         switch result {
         case "높음":
+            print("[DEBUG] resultImageName에서 ResultRipe 반환")
+            return "ResultRipe"
+        case "중간":
             print("[DEBUG] resultImageName에서 ResultRipe 반환")
             return "ResultRipe"
         case "낮음":

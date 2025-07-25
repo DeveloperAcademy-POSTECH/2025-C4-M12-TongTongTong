@@ -43,7 +43,7 @@ struct RecordingCompleteView: View {
         .ignoresSafeArea()
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                coordinator.goToAnalysis()
+                coordinator.mainViewModel?.stopRecordingAndAnalyze()
             }
         }
     }

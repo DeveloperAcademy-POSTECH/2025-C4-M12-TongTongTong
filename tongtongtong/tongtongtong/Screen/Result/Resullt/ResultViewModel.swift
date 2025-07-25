@@ -1,11 +1,9 @@
 import SwiftUI
 
 class ResultViewModel: ObservableObject {
-    @Published var prediction: PredictionResponse
     @Published var resultState = ResultState()
     
-    init(prediction: PredictionResponse, resultState: ResultState = ResultState()) {
-        self.prediction = prediction
+    init(resultState: ResultState = ResultState()) {
         self.resultState = resultState
     }
     
@@ -15,7 +13,7 @@ class ResultViewModel: ObservableObject {
             case .success(let prediction):
                 print("[ResultViewModel]: resultState Update")
                 DispatchQueue.main.async {
-                    self?.resultState.update(with: prediction)
+                    self?.resultState.update(predicted_class: prediction.predicted_class, probabilities: prediction.probabilities, confidence: prediction.confidence)
                 }
             case .failure(let error):
                 print("[ResultViewModel] 예측 에러: \(error)")

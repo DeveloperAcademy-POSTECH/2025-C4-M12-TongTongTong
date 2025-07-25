@@ -8,9 +8,10 @@ struct ServerHealthResponse: Codable {
 struct PredictionResponse: Codable {
     let success: Bool
     let filename: String
-    let prediction: Double
-    let result: String
+    let prediction: Int
+    let predicted_class: Int
     let confidence: Double
+    let probabilities: [String: Double]
 }
 
 struct ErrorResponse: Codable {

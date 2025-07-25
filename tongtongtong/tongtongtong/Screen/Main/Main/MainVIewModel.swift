@@ -1,7 +1,14 @@
 import Foundation
 import AVFoundation
+import SwiftUI
+import Combine
+
+// 필요한 타입 import
+// Coordinator, AudioLevelMonitor, HapticManager, UIConstants, AudioBufferExport, WatermelonAPIService
+// -> 모두 같은 타겟 내에 있으므로 별도 import 필요 없음
 
 class MainViewModel: ObservableObject {
+    @Published var soundClassifier = SoundClassifier()
     @Published var highlightIndex = 0
     @Published var isRedBackground = false
     @Published var showMicAlert = false
@@ -37,23 +44,20 @@ class MainViewModel: ObservableObject {
 
     let indicatorCount = 3
     let audioMonitor = AudioLevelMonitor()
-    let soundClassifier = SoundClassifier()
+    // let soundClassifier = SoundClassifier() // CoreML 분류기 제거
     private var debugTimer: Timer?
 
     func startMicMonitoring(completion: @escaping () -> Void) {
         print("[DEBUG] 마이크 모니터링 시작")
-        // 디버그 모드에서는 3회 감지 후에도 모니터링을 멈추지 않도록 설정
         audioMonitor.stopOnThreeSounds = !showDebugOverlay
         if !showDebugOverlay { isMicActive = true }
         soundCount = 0
         audioMonitor.reset()
-        audioMonitor.setSoundClassifier(soundClassifier)
+        // audioMonitor.setSoundClassifier(soundClassifier) // CoreML 분류기 제거
 
-        // 소리 카운트 변경 시 UI 업데이트
         audioMonitor.onSoundCountChanged = { count in
             DispatchQueue.main.async {
                 if self.showDebugOverlay {
-                    // 디버그 모드에서는 카운트/하이라이트 등 UI 업데이트 하지 않음
                     return
                 }
                 print("[DEBUG] 소리 감지 카운트: \(count)")
@@ -67,101 +71,100 @@ class MainViewModel: ObservableObject {
             }
         }
 
-        // 3번 인식 완료 시
         audioMonitor.onThreeSoundsDetected = { [weak self] in
             DispatchQueue.main.async {
                 print("[DEBUG] 3번 소리 감지 완료")
                 if self?.showDebugOverlay == true {
-                    // 디버그 모드에서는 아무 동작도 하지 않음 (isMicActive false로 만들지 않음)
                     return
                 } else {
-                    if let buffer = self?.audioMonitor.latestBuffer {
-                        do {
-                            let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
-                            try AudioBufferExport.writeWAV(buffer: buffer, to: url)
-                            self?.coordinator?.resultState.audioFileURL = url // 오디오 파일 경로 저장
-                        } catch {
-                            print("[API] 파일 저장 실패: \(error)")
-                        }
-                    }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                        guard let self = self else { return }
-                        self.showTapInstruction = false
-                        self.isMicActive = false
-                        completion()
-                    }
+                    guard let self = self else { return }
+                    self.stopMonitoring() // 모니터링 중지
+                    completion() // 녹음 완료 화면으로 전환
                 }
             }
         }
 
-        // 개별 소리 인식 시 (기존 호환성)
         audioMonitor.onLoudSound = {
             if self.showDebugOverlay { return }
             print("[DEBUG] 소리 감지됨 (onLoudSound)")
         }
 
         audioMonitor.startMonitoring()
-
-        // 시뮬레이터에서 탭 안내 표시
 #if targetEnvironment(simulator)
         showTapInstruction = true
 #endif
     }
 
-    // 디버그 모드: 0.5초마다 자동 분석
+    // 디버그 모드: 0.5초마다 자동 분석 (CoreML 제거, 필요시 서버 호출로 대체 가능)
     private func startDebugTimer() {
         stopDebugTimer()
         debugTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             print("[DEBUG] 디버그 타이머 tick - 자동 분석 시도")
-            self.analyzeCurrentAudio()
+            // self.analyzeCurrentAudio() // CoreML 분석 제거
         }
     }
     private func stopDebugTimer() {
         debugTimer?.invalidate()
         debugTimer = nil
     }
-    private func analyzeCurrentAudio() {
-        if let buffer = audioMonitor.latestBuffer {
-            print("[DEBUG] 오디오 버퍼로 자동 분석 실행")
-            soundClassifier.classify(audioBuffer: buffer)
-        } else {
-            print("[DEBUG] 오디오 버퍼 없음 (자동 분석 skip)")
-        }
-    }
+    // private func analyzeCurrentAudio() { ... } // CoreML 분석 함수 제거
 
-    // 시뮬레이터용 탭 처리
+    // 시뮬레이터용 탭 처리 (CoreML 분류 제거, 서버 호출로 대체 가능)
     func handleSimulatorTap(completion: @escaping () -> Void) {
 #if targetEnvironment(simulator)
         if isMicActive {
             if showDebugOverlay { return }
             print("[DEBUG] 시뮬레이터 탭 감지")
-            // 더미 소리 분류 수행
-            soundClassifier.classifyDummySound()
-
             HapticManager.shared.impact(style: .medium)
-
             soundCount += 1
             highlightIndex = soundCount - 1
             isRedBackground = true
-
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.redBackgroundDuration) {
                 self.isRedBackground = false
             }
-
             if soundCount >= 3 {
                 if showDebugOverlay { return }
                 HapticManager.shared.notification(type: .success)
-                // 0.5초 뒤에 화면 전환
+                // 0.5초 뒤에 녹음 완료 화면으로 전환
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.showTapInstruction = false
-                    self.isMicActive = false
+                    self.stopMonitoring()
                     completion()
                 }
             }
         }
 #endif
+    }
+
+    func stopRecordingAndAnalyze() {
+        if let buffer = self.audioMonitor.latestBuffer {
+            do {
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent("recorded_sound.wav")
+                try AudioBufferExport.writeWAV(buffer: buffer, to: url)
+
+                // 서버로 오디오 파일 전송 및 결과 처리
+                WatermelonAPIService.shared.predictWatermelon(audioFile: url) { [weak self] result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let prediction):
+                            self?.coordinator?.resultState.update(predicted_class: prediction.predicted_class, probabilities: prediction.probabilities, confidence: prediction.confidence)
+                            // 성공 시에만 결과 화면으로 이동
+                            self?.coordinator?.goToAnalysis()
+                        case .failure(let error):
+                            print("[API] 서버 예측 실패: \(error)")
+                            // 실패 시 메인 화면으로 돌아가거나 사용자에게 알림
+                            self?.coordinator?.goToContent()
+                        }
+                    }
+                }
+            } catch {
+                print("[API] 파일 저장 실패: \(error)")
+                coordinator?.goToContent()
+            }
+        } else {
+            print("버퍼 없음, 분석 실패")
+            coordinator?.goToContent()
+        }
     }
 
     func stopMonitoring() {

@@ -8,5 +8,5 @@
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 
-BASE_URL = http:/$()/172.30.1.94:8000
+BASE_URL = http:/$()/172.26.6.197:8000
 

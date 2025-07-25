@@ -40,9 +40,9 @@ class WatermelonAPIService {
     // MARK: - 수박 상태 예측
     /// Uploads an audio file and receives ripeness prediction result from the server.
     /// - Parameters:
-    ///   - audioFileURL: Local file URL of the audio file to upload.
+    ///   - audioFile: Local file URL of the audio file to upload.
     ///   - completion: Called with PredictionResponse on success, or Error on failure.
-    func predictWatermelon(audioFileURL: URL, completion: @escaping (Result<PredictionResponse, Error>) -> Void) {
+    func predictWatermelon(audioFile: URL, completion: @escaping (Result<PredictionResponse, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/predict") else {
             completion(.failure(APIError.invalidURL))
             return
@@ -55,18 +55,18 @@ class WatermelonAPIService {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         do {
-            let fileData = try Data(contentsOf: audioFileURL)
-            let fileName = audioFileURL.lastPathComponent
-            let mimeType = getMimeType(for: audioFileURL.pathExtension)
+            let fileData = try Data(contentsOf: audioFile)
+            let fileName = "recorded_sound.wav"
+            let mimeType = "audio/wav"
             
             var body = Data()
             
             // 파일 데이터 추가
-            body.append("--\(boundary)\r\n")
-            body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n")
-            body.append("Content-Type: \(mimeType)\r\n\r\n")
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
             body.append(fileData)
-            body.append("\r\n--\(boundary)--\r\n")
+            body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
             
             request.httpBody = body
             
@@ -89,6 +89,10 @@ class WatermelonAPIService {
                     if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
                         completion(.failure(APIError.serverError(errorResponse.error)))
                     } else {
+                        //MARK: - Decoding 에러 디버깅
+                        if let jsonString = String(data: data, encoding: .utf8) {
+                            print("Failed to decode JSON: \(jsonString)")
+                        }
                         completion(.failure(error))
                     }
                 }
@@ -97,14 +101,6 @@ class WatermelonAPIService {
         } catch {
             completion(.failure(error))
         }
-    }
-
-    /// Uploads an audio file and receives ripeness prediction result from the server.
-    /// - Parameters:
-    ///   - audioFile: Local file URL of the audio file to upload.
-    ///   - completion: Called with PredictionResponse on success, or Error on failure.
-    public func predictWatermelon(audioFile: URL, completion: @escaping (Result<PredictionResponse, Error>) -> Void) {
-        predictWatermelon(audioFileURL: audioFile, completion: completion)
     }
     
     // MARK: - 지원 형식 확인
@@ -132,20 +128,6 @@ class WatermelonAPIService {
                 completion(.failure(error))
             }
         }.resume()
-    }
-    
-    // MARK: - Helper Methods
-    private func getMimeType(for fileExtension: String) -> String {
-        switch fileExtension.lowercased() {
-        case "wav":
-            return "audio/wav"
-        case "m4a":
-            return "audio/m4a"
-        case "mp3":
-            return "audio/mpeg"
-        default:
-            return "application/octet-stream"
-        }
     }
 }
 
