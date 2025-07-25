@@ -15,7 +15,7 @@ struct UIConstants {
     static let splashCircleSize: CGFloat = 8
 
     // Fonts
-    static let completeTitleFontSize: CGFloat =  34
+    static let splashTitleFontSize: CGFloat =  34
     static let titleFontSize: CGFloat = 22
     static let subtitleFontSize: CGFloat = 18
     static let resultFontSize: CGFloat = 22

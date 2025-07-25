@@ -15,30 +15,36 @@ struct SplashView: View {
     private let interval: TimeInterval = UIConstants.splashInterval
 
     var body: some View {
-        HStack(spacing: -8) {
-            ForEach(0..<total, id: \.self) { idx in
-                VStack {
-                    if idx < visibleIndex {
-                        Circle()
-                            .frame(width: UIConstants.splashCircleSize, height: UIConstants.splashCircleSize)
-                            .foregroundColor(.black)
-                            .transition(.opacity)
-                        Text("통")
-                            .font(.system(size: UIConstants.titleFontSize, weight: .bold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                            .scaleEffect(isBouncing[idx] ? 1.3 : 1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.4, blendDuration: 0.2), value: isBouncing[idx])
-                            .transition(.opacity)
+        VStack(spacing: 31) {
+            HStack(spacing: -8) {
+                ForEach(Array(0..<total), id: \.self) { idx in
+                    VStack {
+                        if idx < visibleIndex {
+                            Circle()
+                                .frame(width: UIConstants.splashCircleSize, height: UIConstants.splashCircleSize)
+                                .foregroundColor(.black)
+                                .transition(.opacity)
+                            Text("통")
+                                .font(.system(size: UIConstants.splashTitleFontSize, weight: .bold))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .scaleEffect(isBouncing[idx] ? 1.3 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.4, blendDuration: 0.2), value: isBouncing[idx])
+                                .transition(.opacity)
+                        }
                     }
                 }
             }
+            
+            Text("잘 익은 수박을 고르는\n가장 똑똑한 방법")
+                .multilineTextAlignment(.center)
+                .font(.system(size: UIConstants.subtitleFontSize, weight: .medium))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
         .onAppear {
             print("[SplashView] onAppear")
-            visibleIndex = 0
+            visibleIndex = 1
             isBouncing = Array(repeating: false, count: total)
             for i in 1...total {
                 DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i)) {
@@ -61,7 +67,7 @@ struct SplashView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.splashDisplayDuration) {
                 print("[SplashView] 2초 지연 시간 종료. 화면 전환을 요청합니다.")
                 HapticManager.shared.impact(style: .medium)
-                coordinator.splashDidFinish()
+                coordinator.goToMain()
             }
         }
         .onDisappear {
@@ -73,6 +79,3 @@ struct SplashView: View {
 #Preview {
     SplashView()
 }
-
-
-
