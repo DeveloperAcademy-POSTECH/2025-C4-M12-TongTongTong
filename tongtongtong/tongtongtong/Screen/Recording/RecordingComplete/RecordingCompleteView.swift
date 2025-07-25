@@ -7,26 +7,26 @@ struct RecordingCompleteView: View {
         VStack {
             Spacer().frame(height: UIConstants.mainTopMargin)
             
-            Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(.white)
-                .font(.system(size: 124))
+            Image("GuideImage_4")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 220, height: 220)
             
-            Spacer().frame(height: 106)
+            Spacer().frame(height: 66)
             
-            VStack(spacing: UIConstants.titleSpacing) {
+            VStack(spacing: 13) {
                 Text("녹음 완료")
-                    .font(.system(size: UIConstants.completeTitleFontSize, weight: .bold))
+                    .font(.system(size: UIConstants.titleFontSize, weight: .bold))
                     .kerning(0.4)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                Text("주파수 분석을 시작할게요")
+                Text("소리 분석을 바로 시작할게요")
                     .font(.system(size: UIConstants.subtitleFontSize, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white.opacity(0.72))
             }
+            
             Spacer()
-            SeedIndicatorView(highlightIndex: 3, indicatorCount: 3)
-                .padding(.bottom, UIConstants.bottomMargin)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(

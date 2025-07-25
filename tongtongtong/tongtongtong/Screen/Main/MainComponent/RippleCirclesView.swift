@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// 여러 파동을 쌓아주는 뷰
-struct WaveCircleView: View {
+struct RippleCirclesView: View {
     var color: Color = .white.opacity(0.2)
     var count: Int = 2
     var duration: Double = 1.0

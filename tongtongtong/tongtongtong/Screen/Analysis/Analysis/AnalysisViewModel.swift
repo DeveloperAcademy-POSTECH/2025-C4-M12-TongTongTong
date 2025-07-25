@@ -5,7 +5,7 @@ class AnalysisViewModel: ObservableObject {
     @Published var overlayOpacity: Double = 0.8
     @Published var loadingRotation: Double = 0
     
-    internal(set) var coordinator: Coordinator
+    var coordinator: Coordinator
     private var animationStarted = false
     
     init(coordinator: Coordinator) {

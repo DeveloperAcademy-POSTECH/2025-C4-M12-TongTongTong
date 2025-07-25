@@ -3,12 +3,11 @@ import SwiftUI
 // MARK: - 하단 콘텐츠 뷰
 struct BottomContentView: View {
     @ObservedObject var viewModel: MainViewModel
-    let isTransitioning: Bool
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                TitleView(isMicActive: viewModel.isMicActive, isTransitioning: isTransitioning)
+                TitleView(isMicActive: viewModel.isMicActive)
                 Spacer()
                 if viewModel.isMicActive {
                     VStack {
