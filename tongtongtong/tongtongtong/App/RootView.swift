@@ -7,20 +7,22 @@ struct RootView: View {
         switch coordinator.currentScreen {
         case .splash:
             SplashView()
-        case .onboarding:
-            OnboardingContainerView()
-        case .content:
+        case .main:
             MainView()
         case .analysis:
             AnalysisView()
+        case .recordingGuide:
+            RecordingGuideView()
+        case .recording:
+            RecordingView()
+        case .recordingComplete:
+            RecordingCompleteView()
         case .result:
             ResultView()
                 .environmentObject(coordinator)
                 .environmentObject(coordinator.resultState)
         case .dev:
             DevView()
-        case .recordingComplete:
-            RecordingCompleteView()
         }
     }
 }
