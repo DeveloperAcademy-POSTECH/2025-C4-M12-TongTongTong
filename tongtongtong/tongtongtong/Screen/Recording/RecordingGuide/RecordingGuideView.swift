@@ -44,10 +44,12 @@ struct RecordingGuideView: View {
                 }
                 if currentIndex < steps.count - 1 {
                     RecordingBottomContentView(title: "다음") {
+                        HapticManager.shared.impact(style: .medium)
                         currentIndex += 1
                     }
                 } else {
                     RecordingBottomContentView(title: "다음") {
+                        HapticManager.shared.impact(style: .medium)
                         coordinator.goToRecording()
                     }
                 }
