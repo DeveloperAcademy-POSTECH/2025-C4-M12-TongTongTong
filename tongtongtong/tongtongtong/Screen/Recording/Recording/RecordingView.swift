@@ -25,7 +25,8 @@ struct RecordingView: View {
         }
         .onAppear {
             showMicAlert = true
-            viewModel.onRecordingCompleted = { _ in
+            viewModel.onRecordingCompleted = { url in
+                coordinator.resultState.audioFileURL = url
                 coordinator.goToRecordingComplete()
             }
         }

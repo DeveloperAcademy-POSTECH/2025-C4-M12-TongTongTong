@@ -19,29 +19,53 @@ class AnalysisViewModel: ObservableObject {
     func onAppear() {
         guard !animationStarted else { return }
         animationStarted = true
+        
+        Task {
+            await analyseAudioAndNavigate()
+        }
+    }
+    
+    private func analyseAudioAndNavigate() async {
         print("[AnalysisViewModel] onAppear - 서버 분석 시작")
+        
         guard let url = coordinator.resultState.audioFileURL else {
             print("[AnalysisViewModel] 오디오 파일 없음")
+            await MainActor.run {
+                coordinator.resultState.update(result: "판단 불가", confidence: 0)
+                coordinator.goToResult()
+            }
             return
         }
-        // 3초간 로딩 화면 노출 후 서버 호출
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            WatermelonAPIService.shared.predictWatermelon(audioFileURL: url) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let response):
-                        print("[API] 예측 성공: \(response)")
-                        self?.coordinator.resultState.update(with: response)
-                        self?.coordinator.goToResult()
-                    case .failure(let error):
-                        print("[API] 예측 실패: \(error)")
-                        // 에러 처리 필요시 추가
-                    }
+        
+        do {
+            try await Task.sleep(nanoseconds: 3_000_000_000) // 3초 대기
+            
+            let response = try await WatermelonAPIService.shared.predictWatermelon(audioFileURL: url)
+            
+            await MainActor.run {
+                print("[API] 예측 성공: \(response)")
+                let predictionClass = response.prediction
+                var resultString = "알 수 없음"
+                
+                switch predictionClass {
+                case 0:
+                    resultString = "안 익음"
+                case 1:
+                    resultString = "잘 익음"
+                case 2:
+                    resultString = "너무 익음"
+                default:
+                    break
                 }
+                
+                coordinator.resultState.update(result: resultString, confidence: response.confidence * 100)
+                coordinator.goToResult()
             }
-            print("[AnalysisViewModel] onAppear")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                self?.coordinator.goToResult()
+        } catch {
+            print("[API] 예측 실패: \(error)")
+            await MainActor.run {
+                coordinator.resultState.update(result: "판단 불가", confidence: 0)
+                coordinator.goToResult()
             }
         }
     }

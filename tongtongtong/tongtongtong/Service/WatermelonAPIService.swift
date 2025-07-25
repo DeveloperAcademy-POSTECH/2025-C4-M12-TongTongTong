@@ -98,6 +98,43 @@ class WatermelonAPIService {
             completion(.failure(error))
         }
     }
+    
+    func predictWatermelon(audioFileURL: URL) async throws -> PredictionResponse {
+        guard let url = URL(string: "\(baseURL)/predict") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let fileData = try Data(contentsOf: audioFileURL)
+        let fileName = audioFileURL.lastPathComponent
+        let mimeType = getMimeType(for: audioFileURL.pathExtension)
+        
+        var body = Data()
+        
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        body.append(fileData)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = body
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                throw APIError.serverError(errorResponse.error)
+            }
+            throw APIError.serverError("Invalid response from server")
+        }
+        
+        return try JSONDecoder().decode(PredictionResponse.self, from: data)
+    }
 
     /// Uploads an audio file and receives ripeness prediction result from the server.
     /// - Parameters:
