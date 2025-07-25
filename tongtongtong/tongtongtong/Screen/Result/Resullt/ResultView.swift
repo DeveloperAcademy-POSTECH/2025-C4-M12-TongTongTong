@@ -29,7 +29,7 @@ struct ResultView: View {
                 .font(.system(size: 20, weight: .semibold))
                 .onTapGesture {
                     HapticManager.shared.impact(style: .medium)
-                    coordinator.goToContent()
+                    coordinator.goToMain()
                 }
                 .padding(.bottom, UIConstants.resultBottomMargin)
             }
