@@ -8,6 +8,7 @@ struct RecordingTextView: View {
         VStack(spacing: 13) {
             Text(title)
                 .font(.system(size: UIConstants.titleFontSize, weight: .bold))
+                .kerning(0.4)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
             Text(subtitle)

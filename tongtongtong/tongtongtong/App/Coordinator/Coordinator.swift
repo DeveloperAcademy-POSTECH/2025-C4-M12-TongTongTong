@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 class Coordinator: ObservableObject {
     enum Screen {
@@ -16,12 +17,13 @@ class Coordinator: ObservableObject {
     @Published var resultState = ResultState()
     var mainViewModel: MainViewModel?
     var recordingViewModel: RecordingViewModel?
+    
     func goToSplash() { currentScreen = .splash }
     func goToMain() { currentScreen = .main }
-    func goToAnalysis() { currentScreen = .analysis }
-    func goToResult() { currentScreen = .result }
-    func goToDev() { currentScreen = .dev }
     func goToRecordingGuide() { currentScreen = .recordingGuide }
     func goToRecording() { currentScreen = .recording }
     func goToRecordingComplete() { currentScreen = .recordingComplete }
+    func goToAnalysis() { currentScreen = .analysis }
+    func goToResult() { currentScreen = .result }
+    func goToDev() { currentScreen = .dev }
 }

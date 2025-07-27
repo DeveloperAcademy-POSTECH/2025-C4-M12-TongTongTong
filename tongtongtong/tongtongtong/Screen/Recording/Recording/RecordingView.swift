@@ -13,7 +13,6 @@ struct RecordingView: View {
                 RecordingCountdownView(
                     isShowing: $showCountdown,
                     onFinished: {
-                        // 카운트다운 끝나자마자 바로 시작
                         viewModel.startMonitoring {
                             coordinator.goToRecordingComplete()
                         }
@@ -25,7 +24,8 @@ struct RecordingView: View {
         }
         .onAppear {
             showMicAlert = true
-            viewModel.onRecordingCompleted = { _ in
+            viewModel.onRecordingCompleted = { url in
+                coordinator.resultState.audioFileURL = url
                 coordinator.goToRecordingComplete()
             }
         }

@@ -4,34 +4,37 @@ struct RecordingContentView: View {
     @ObservedObject var viewModel: RecordingViewModel
     
     var body: some View {
-        VStack {
-            Spacer().frame(height: UIConstants.mainTopMargin)
-
-            WatermelonView(isMicActive: viewModel.isMicActive)
-
-            Spacer().frame(height: 32)
-
-            RecordingTextView(title: "녹음 시작", subtitle: "손끝으로 수박을 세 번 두드리세요")
-
-            SeedIndicatorView(
-                highlightIndex: viewModel.soundCount,
-                indicatorCount: 3
+        GeometryReader { geometry in
+            VStack {
+                Spacer().frame(height: UIConstants.mainTopMargin)
+                
+                    WatermelonView(isMicActive: viewModel.isMicActive)
+                    
+                    Spacer().frame(height: 46)
+                    
+                    RecordingTextView(title: "녹음 시작", subtitle: "손끝으로 수박을 세 번 두드리세요")
+                
+                Spacer().frame(height: 102)
+                
+                SeedIndicatorView(
+                    highlightIndex: viewModel.soundCount,
+                    indicatorCount: 3
+                )
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .background(
+                LinearGradient(
+                    stops: [
+                        .init(color: ColorConstants.redGradientStart, location: 0.00),
+                        .init(color: ColorConstants.redGradientMedium, location: 0.20),
+                        .init(color: ColorConstants.redGradientEnd, location: 1.00)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
             )
-
-            Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            LinearGradient(
-                stops: [
-                    .init(color: ColorConstants.redGradientStart, location: 0.00),
-                    .init(color: ColorConstants.redGradientMedium, location: 0.20),
-                    .init(color: ColorConstants.redGradientEnd, location: 1.00)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
-        .ignoresSafeArea()
     }
 }
