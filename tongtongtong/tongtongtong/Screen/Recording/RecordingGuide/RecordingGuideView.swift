@@ -30,32 +30,36 @@ struct RecordingGuideView: View {
             let step = steps[currentIndex]
             
             VStack {
-                Spacer()
-                    .frame(height: UIConstants.mainTopMargin)
+                Spacer().frame(height: UIConstants.mainTopMargin)
                 
-                VStack(spacing: 66) {
-                    RecordingImageView(imageName: steps[currentIndex].imageName)
-                        .frame(width: 220, height: 220)
-                    
-                    RecordingTextView(
-                        title: "녹음하기",
-                        subtitle: step.subtitle
-                    )
-                }
-                if currentIndex < steps.count - 1 {
-                    RecordingBottomContentView(title: "다음") {
-                        HapticManager.shared.impact(style: .medium)
-                        currentIndex += 1
+                RecordingImageView(imageName: steps[currentIndex].imageName)
+                    .frame(width: 220, height: 220)
+                
+                Spacer().frame(height: 66)
+                RecordingTextView(
+                    title: "녹음하기",
+                    subtitle: step.subtitle
+                )
+                
+                Spacer().frame(height: 102)
+                
+                VStack {
+                    if currentIndex < steps.count - 1 {
+                        RecordingBottomContentView(title: "다음") {
+                            HapticManager.shared.impact(style: .medium)
+                            currentIndex += 1
+                        }
+                    } else {
+                        RecordingBottomContentView(title: "다음") {
+                            HapticManager.shared.impact(style: .medium)
+                            coordinator.goToRecording()
+                        }
                     }
-                } else {
-                    RecordingBottomContentView(title: "다음") {
-                        HapticManager.shared.impact(style: .medium)
-                        coordinator.goToRecording()
-                    }
                 }
-                Spacer()
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(width: geometry.size.width, height: geometry.size.height)
             .background(
                 LinearGradient(
                     stops: [

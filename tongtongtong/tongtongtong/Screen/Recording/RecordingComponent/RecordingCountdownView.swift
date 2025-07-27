@@ -13,30 +13,65 @@ struct RecordingCountdownView: View {
     
     var body: some View {
         if isShowing {
-            ZStack {
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: 200, height: 200)
-                    .overlay (
-                        ZStack {
-                            if let prev = previousCount {
-                                Text("\(prev)")
-                                    .font(.system(size: 240, weight: .bold))
-                                    .foregroundColor(Color(red: 1, green: 0.55, blue: 0.47))
-                                    .scaleEffect(previousScale)
-                                    .opacity(previousOpacity)
-                            }
-                            
-                            Text("\(count)")
-                                .font(.system(size: 128, weight: .bold))
-                                .foregroundColor(Color(red: 1, green: 0.55, blue: 0.47))
-                                .scaleEffect(scale)
-                        }
+            GeometryReader { geometry in
+                VStack {
+                    Spacer().frame(height: UIConstants.mainTopMargin)
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 220, height: 220)
+                            .overlay (
+                                ZStack {
+                                    if let prev = previousCount {
+                                        Text("\(prev)")
+                                            .font(.system(size: 240, weight: .bold))
+                                            .kerning(0.4)
+                                            .multilineTextAlignment(.center)
+                                            .foregroundColor(Color(red: 1, green: 0.55, blue: 0.47))
+                                            .scaleEffect(previousScale)
+                                            .opacity(previousOpacity)
+                                    }
+                                    
+                                    Text("\(count)")
+                                        .font(.system(size: 128, weight: .bold))
+                                        .kerning(0.4)
+                                        .multilineTextAlignment(.center)
+                                        .foregroundColor(Color(red: 1, green: 0.55, blue: 0.47))
+                                        .scaleEffect(scale)
+                                }
+                                    .frame(width: 220, height: 220)
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                            )
+                            .onAppear(perform: startCountdown)
+                    }
+                    .transition(.opacity)
+                    
+                    Spacer().frame(height: 66)
+                    
+                    RecordingTextView(title: "녹음 시작", subtitle: "3초 후 녹음이 시작됩니다")
+                    
+                    Spacer().frame(height: 102)
+                    
+                    SeedIndicatorView(highlightIndex: 0, indicatorCount: 3)
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(
+                    LinearGradient(
+                        stops: [
+                            .init(color: ColorConstants.redGradientStart, location: 0.00),
+                            .init(color: ColorConstants.redGradientMedium, location: 0.20),
+                            .init(color: ColorConstants.redGradientEnd, location: 1.00)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-                    .onAppear(perform: startCountdown)
+                )
             }
-            .transition(.opacity)
         }
+        
     }
     
     private func startCountdown() {

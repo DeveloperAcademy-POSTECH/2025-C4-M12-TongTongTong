@@ -13,7 +13,6 @@ struct RecordingView: View {
                 RecordingCountdownView(
                     isShowing: $showCountdown,
                     onFinished: {
-                        // 카운트다운 끝나자마자 바로 시작
                         viewModel.startMonitoring {
                             coordinator.goToRecordingComplete()
                         }
