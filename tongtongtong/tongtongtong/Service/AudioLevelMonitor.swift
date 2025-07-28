@@ -14,6 +14,7 @@ class AudioLevelMonitor: ObservableObject {
     private var soundClassifier: SoundClassifier?
     
     // 최근 오디오 버퍼 저장
+    private var recordedBuffers: [AVAudioPCMBuffer] = []
     private(set) var latestBuffer: AVAudioPCMBuffer?
     
     var onLoudSound: (() -> Void)?
@@ -41,6 +42,10 @@ class AudioLevelMonitor: ObservableObject {
         inputNode.installTap(onBus: bus, bufferSize: AudioConstants.bufferSize, format: format) { buffer, _ in
             // 최신 버퍼 저장
             self.latestBuffer = buffer
+            let copy = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: buffer.frameCapacity)!
+            copy.frameLength = buffer.frameLength
+            memcpy(copy.floatChannelData![0], buffer.floatChannelData![0], Int(buffer.frameLength) * MemoryLayout<Float>.size)
+            self.recordedBuffers.append(copy)
             guard let channelData = buffer.floatChannelData?[0] else { return }
             let channelDataValueArray = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
             print("[DEBUG] channelDataValueArray head: \(channelDataValueArray.prefix(10)) tail: \(channelDataValueArray.suffix(10))")
@@ -138,6 +143,29 @@ class AudioLevelMonitor: ObservableObject {
         cooldownTimer?.invalidate()
         cooldownTimer = nil
         onSoundCountChanged?(soundCount)
+    }
+
+    func exportFullRecording(to url: URL) throws {
+        guard let format = recordedBuffers.first?.format else { return }
+
+        let totalFrames = recordedBuffers.reduce(0) { $0 + $1.frameLength }
+        guard let fullBuffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: totalFrames) else { return }
+
+        fullBuffer.frameLength = totalFrames
+
+        var currentFrame: AVAudioFrameCount = 0
+        for buffer in recordedBuffers {
+            let dst = fullBuffer.floatChannelData![0].advanced(by: Int(currentFrame))
+            let src = buffer.floatChannelData![0]
+            memcpy(dst, src, Int(buffer.frameLength) * MemoryLayout<Float>.size)
+            currentFrame += buffer.frameLength
+        }
+
+        try AudioBufferExport.writeWAV(buffer: fullBuffer, to: url)
+    }
+
+    func clearRecording() {
+        recordedBuffers.removeAll()
     }
 }
 

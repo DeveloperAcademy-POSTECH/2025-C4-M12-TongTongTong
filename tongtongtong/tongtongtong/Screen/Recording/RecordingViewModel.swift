@@ -77,7 +77,8 @@ class RecordingViewModel: ObservableObject {
                     let url = FileManager.default.temporaryDirectory
                         .appendingPathComponent("recorded_sound.wav")
                     do {
-                        try AudioBufferExport.writeWAV(buffer: buffer, to: url)
+                        try self.audioMonitor.exportFullRecording(to: url)
+                        self.audioMonitor.clearRecording()
                         urlToSend = url
                     } catch {
                         print("[RecordingViewModel] 파일 저장 실패:", error)
