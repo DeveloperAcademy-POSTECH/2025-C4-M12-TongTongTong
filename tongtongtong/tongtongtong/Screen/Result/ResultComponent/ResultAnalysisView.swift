@@ -27,10 +27,9 @@ struct ResultAnalysisView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                     
-                    Text("⭐️⭐️⭐️⭐️⭐️")
-                        .font(.system(size: 10, weight: .semibold))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white.opacity(0.8))
+                    StarRatingView(
+                        rating: ripeScore
+                    )
                 }
                 
                 Rectangle()
