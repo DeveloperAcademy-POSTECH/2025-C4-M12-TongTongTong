@@ -38,6 +38,8 @@ class AnalysisViewModel: ObservableObject {
             return
         }
         
+        print("✅ 녹음된 파일 경로: \(url.path)")
+        
         do {
             try await Task.sleep(nanoseconds: 3_000_000_000) // 3초 대기
             
@@ -129,3 +131,4 @@ class AnalysisViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: workItem)
     }
 }
+

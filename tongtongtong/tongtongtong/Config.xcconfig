@@ -1,11 +1,11 @@
 //
-//  Config.xcconfig
-//  tongtongtong
+//  Config.xcconfig
+//  tongtongtong
 //
-//  Created by 조유진 on 7/18/25.
+//  Created by 조유진 on 7/18/25.
 //
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 
-BASE_URL = http:/$()/172.30.1.52:8000
+BASE_URL = https:/$()/www.singyupark.cloud:9002

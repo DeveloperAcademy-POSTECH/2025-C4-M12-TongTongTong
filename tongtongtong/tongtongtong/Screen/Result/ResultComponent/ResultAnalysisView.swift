@@ -17,7 +17,7 @@ struct ResultAnalysisView: View {
         VStack {
             HStack {
                 VStack(spacing: 8) {
-                    Text("숙성도")
+                    Text("통통통의 제안")
                         .font(.system(size: 12, weight: .medium))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white.opacity(0.8))
@@ -39,7 +39,7 @@ struct ResultAnalysisView: View {
                     .padding(.horizontal, 35)
                 
                 VStack(spacing: 8) {
-                    Text("주파수")
+                    Text("익음도")
                         .font(.system(size: 12, weight: .medium))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white.opacity(0.8))
@@ -49,7 +49,7 @@ struct ResultAnalysisView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                     
-                    Text("헤르츠 (Hz)")
+                    Text("ADA 지수")
                         .font(.system(size: 10, weight: .semibold))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white.opacity(0.8))

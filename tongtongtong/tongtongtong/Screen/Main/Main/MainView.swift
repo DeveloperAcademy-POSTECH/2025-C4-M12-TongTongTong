@@ -24,13 +24,6 @@ struct MainView: View {
                     }
                     .onTapGesture {
                         HapticManager.shared.impact(style: .light)
-#if targetEnvironment(simulator)
-                        if viewModel.isMicActive {
-                            viewModel.handleSimulatorTap {
-                                coordinator.goToRecordingComplete()
-                            }
-                        }
-#endif
                     }
                     
                     Spacer().frame(height: 66)

@@ -14,6 +14,9 @@ struct ResultView: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
+                .onTapGesture(count: 3) {
+                    state.cycleResultForDebug()
+                }
             
             VStack {
                 ResultAnalysisView(state: state)

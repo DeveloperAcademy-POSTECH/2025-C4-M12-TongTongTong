@@ -17,7 +17,7 @@ struct AnalysisView: View {
                 VStack(spacing: UIConstants.mainSpacing) {
                     Spacer().frame(height: UIConstants.analysisTopMargin)
                     HStack {
-                        Text("주파수 분석중")
+                        Text("소리 분석 중")
                         Image(systemName: "waveform")
                     }
                     .font(.system(size: UIConstants.resultFontSize, weight: .bold))

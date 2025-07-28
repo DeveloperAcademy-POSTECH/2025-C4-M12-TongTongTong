@@ -10,9 +10,9 @@ struct RecordingContentView: View {
                 
                     WatermelonView(isMicActive: viewModel.isMicActive)
                     
-                    Spacer().frame(height: 46)
-                    
-                    RecordingTextView(title: "녹음 시작", subtitle: "손끝으로 수박을 세 번 두드리세요")
+                    Spacer().frame(height: 66)
+
+                    RecordingTextView(title: "녹음시작", subtitle: "손끝으로 수박을 세 번 두드리세요")
                 
                 Spacer().frame(height: 102)
                 
@@ -23,7 +23,6 @@ struct RecordingContentView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
             .background(
                 LinearGradient(
                     stops: [

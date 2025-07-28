@@ -9,6 +9,10 @@ class ResultState: ObservableObject {
         switch result {
         case "잘 익음":
             return .ripe
+        case "너무 익음":
+            return .overripe
+        case "안 익음":
+            return .unripe
         default:
             return .unripe
         }
@@ -17,6 +21,7 @@ class ResultState: ObservableObject {
     enum WatermelonRipeness {
         case ripe
         case unripe
+        case overripe
         
         var imageName: String {
             switch self {
@@ -24,6 +29,8 @@ class ResultState: ObservableObject {
                 return "ResultRipe"
             case .unripe:
                 return "ResultUnripe"
+            case .overripe:
+                return "ResultOverripe"
             }
         }
     }
@@ -37,13 +44,20 @@ class ResultState: ObservableObject {
 
     var resultImageName: String {
         print("[DEBUG] resultImageName 호출 - result: \(result)")
+        return ripeness.imageName
+    }
+    
+    func cycleResultForDebug() {
         switch result {
         case "잘 익음":
-            print("[DEBUG] resultImageName에서 ResultRipe 반환")
-            return "ResultRipe"
+            result = "안 익음"
+        case "안 익음":
+            result = "너무 익음"
+        case "너무 익음":
+            result = "잘 익음"
         default:
-            print("[DEBUG] resultImageName에서 ResultUnripe 반환 (default)")
-            return "ResultUnripe"
+            result = "잘 익음"
         }
+        print("[DEBUG] cycleResultForDebug() - new result: \(result)")
     }
 }
