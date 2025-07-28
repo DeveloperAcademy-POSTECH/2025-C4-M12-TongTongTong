@@ -5,7 +5,6 @@ struct RippleCircle: View {
     var color: Color = .white.opacity(0.2)
     var lineWidth: CGFloat = 1
     var maxScale: CGFloat = 2.0
-    var duration: Double = 2.0
     var delay: Double = 0
     
     @State private var animate = false
@@ -21,11 +20,9 @@ struct RippleCircle: View {
                 }
             }
             .animation(
-                .easeOut(duration: duration)
+                .easeOut(duration: UIConstants.waveAnimationDuration)
                 .repeatForever(autoreverses: false),
                 value: animate
             )
     }
 }
-
-
