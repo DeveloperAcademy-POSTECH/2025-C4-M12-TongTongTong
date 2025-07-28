@@ -33,6 +33,11 @@ class AudioLevelMonitor: ObservableObject {
         return
         #endif
         
+        // AVAudioSession 활성화 (중요!)
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.record)
+        try? session.setActive(true)
+        
         let engine = AVAudioEngine()
         let inputNode = engine.inputNode
         let bus = AudioConstants.busIndex
@@ -80,6 +85,7 @@ class AudioLevelMonitor: ObservableObject {
             print("Audio engine start error: \(error)")
         }
     }
+
     
     private func downsampleBufferTo16kHz(_ buffer: AVAudioPCMBuffer, originalFormat: AVAudioFormat) -> AVAudioPCMBuffer? {
         let targetFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 16000, channels: buffer.format.channelCount, interleaved: false)!
