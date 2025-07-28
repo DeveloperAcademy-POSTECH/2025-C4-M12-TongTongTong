@@ -116,4 +116,9 @@ struct WaveCircleConfig {
         WaveCircleConfig(color: ColorConstants.waveRed4, baseSize: 260, scale: 1.5, delay: 0.6, opacity: 0.7),
         WaveCircleConfig(color: ColorConstants.waveRed5, baseSize: 280, scale: 1.4, delay: 0.8, opacity: 0.6)
     ]
+  
+    static let whiteWaves: [WaveCircleConfig] = [
+        WaveCircleConfig(color: Color.white, baseSize: 200, scale: 1.8, delay: 0, opacity: 0.8),
+        WaveCircleConfig(color: Color.white, baseSize: 200, scale: 2.4, delay: 0, opacity: 0.6)
+    ]
 }

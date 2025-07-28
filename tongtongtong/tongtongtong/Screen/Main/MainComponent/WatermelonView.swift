@@ -9,7 +9,7 @@ struct WatermelonView: View {
     var body: some View {
         ZStack {
             if isMicActive {
-                let waveConfigs = WaveCircleConfig.redWaves
+                let waveConfigs = WaveCircleConfig.whiteWaves
                 
                 ForEach(Array(waveConfigs.enumerated()), id: \.offset) { _, config in
                     WaveCircle(
@@ -25,8 +25,7 @@ struct WatermelonView: View {
             ZStack {
                 RippleCirclesView(
                     color: .white.opacity(0.7),
-                    count: 2,
-                    duration: 2.5,
+                    count: 1,
                     spacing: 1.25
                 )
                 

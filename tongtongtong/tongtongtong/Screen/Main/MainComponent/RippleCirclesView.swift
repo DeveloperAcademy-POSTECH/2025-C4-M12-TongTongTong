@@ -3,9 +3,8 @@ import SwiftUI
 /// 여러 파동을 쌓아주는 뷰
 struct RippleCirclesView: View {
     var color: Color = .white.opacity(0.2)
-    var count: Int = 2
-    var duration: Double = 1.0
-    var spacing: Double = 2.0
+    var count: Int = 1
+    var spacing: Double = 3.0
     
     var body: some View {
         ZStack {
@@ -13,8 +12,7 @@ struct RippleCirclesView: View {
                 RippleCircle(
                     color: color,
                     lineWidth: 1,
-                    maxScale: 2.0,
-                    duration: duration,
+                    maxScale: 3.0,
                     delay: spacing * Double(i)
                 )
             }
