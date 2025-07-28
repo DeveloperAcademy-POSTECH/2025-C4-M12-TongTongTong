@@ -14,7 +14,7 @@ class SoundClassifier: ObservableObject {
     // 입력 데이터 길이 (프레임 개수)
     private let inputLength = 3000
     // 분류 클래스 레이블 목록
-    private let classLabels = ["etc", "음이 낮은", "음이 높은"]
+    private let classLabels = ["A", "B", "C"]
     // 누적용 오디오 버퍼
     private var accumulatedBuffer: [Float] = []
 
@@ -25,21 +25,86 @@ class SoundClassifier: ObservableObject {
     // createML로 만든 Core ML 모델을 번들에서 불러옵니다
     private func loadModel() {
         // 모델 파일(.mlmodelc) 경로 찾기
-        guard let url = Bundle.main.url(forResource: "SoundWaterMelon 11", withExtension: "mlmodelc") else {
-            print("⚠️ SoundWaterMelonETC.mlmodelc 파일을 찾을 수 없습니다.")
+        guard let url = Bundle.main.url(forResource: "WaterMelon 25 0.5 0 91.8%", withExtension: "mlmodelc") else {
+            print("⚠️ WaterMelon 25 0.5 0 91.8%.mlmodelc 파일을 찾을 수 없습니다.")
             return
         }
         print("[DEBUG] 모델 경로: \(url)")
         do {
             // 모델 로드 시도
             model = try MLModel(contentsOf: url)
-            print("✅ SoundWaterMelonETC 모델 로드 성공")
+            print("✅ SoundWaterMelon 25 0.5 0 91.8% 모델 로드 성공")
         } catch {
             print("❌ 모델 로드 실패: \(error)")
         }
     }
 
-    // 오디오 버퍼를 모델에 넣어 분류합니다
+    /// 오디오 파일 URL을 받아 분류를 수행하고 결과를 반환합니다.
+    /// - Parameters:
+    ///   - audioFileURL: 분석할 오디오 파일의 URL입니다.
+    ///   - completion: (예측 결과, 신뢰도)를 반환하는 클로저입니다.
+    func classify(audioFileURL: URL, completion: @escaping (String?, Double?) -> Void) {
+        guard let model = model else {
+            print("[DEBUG] 모델이 아직 로드되지 않았습니다.")
+            completion(nil, nil)
+            return
+        }
+
+        do {
+            let audioFile = try AVAudioFile(forReading: audioFileURL)
+            let audioFormat = audioFile.processingFormat
+            let audioFrameCount = UInt32(audioFile.length)
+            
+            guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount) else {
+                completion(nil, nil)
+                return
+            }
+            
+            try audioFile.read(into: buffer)
+            
+            guard let channelData = buffer.floatChannelData?[0] else {
+                completion(nil, nil)
+                return
+            }
+            
+            let frameLength = Int(buffer.frameLength)
+            let samples = Array(UnsafeBufferPointer(start: channelData, count: frameLength))
+            
+            // 모델이 요구하는 길이보다 샘플이 적으면 실패 처리
+            guard samples.count >= inputLength else {
+                print("[DEBUG] 오디오 샘플 부족: \(samples.count) < \(inputLength)")
+                completion(nil, nil)
+                return
+            }
+            
+            // 필요한 길이만큼 샘플을 잘라 사용
+            let inputSamples = Array(samples.prefix(inputLength))
+            
+            guard let inputArray = bufferToMLMultiArray(buffer: inputSamples) else {
+                print("[DEBUG] MLMultiArray 변환 실패")
+                completion(nil, nil)
+                return
+            }
+
+            // 모델 입력 생성 및 예측
+            let input = try MLDictionaryFeatureProvider(dictionary: ["audioSamples": MLFeatureValue(multiArray: inputArray)])
+            let prediction = try model.prediction(from: input)
+            
+            // 결과 추출
+            let target = prediction.featureValue(for: "target")?.stringValue
+            let confidence = prediction.featureValue(for: "targetProbability")?.dictionaryValue[target ?? ""] as? Double
+
+            // 결과 반환
+            completion(target, confidence)
+            
+        } catch {
+            print("오디오 파일 처리 중 오류 발생: \(error)")
+            completion(nil, nil)
+        }
+    }
+
+
+    // 오디오 버퍼를 모델에 넣어 분류합니다 (실시간 분석용)
     func classify(audioBuffer: AVAudioPCMBuffer) {
         guard let model = model else {
             print("[DEBUG] 모델이 아직 로드되지 않았습니다.")
@@ -58,7 +123,7 @@ class SoundClassifier: ObservableObject {
 
         // 누적된 샘플이 충분할 때만 예측 수행
         while accumulatedBuffer.count >= inputLength {
-            // 앞서 22050개 샘플을 MLMultiArray로 변환
+            // 앞서 inputLength 만큼 샘플을 MLMultiArray로 변환
             let inputSamples = Array(accumulatedBuffer.prefix(inputLength))
             guard let inputArray = bufferToMLMultiArray(buffer: inputSamples) else {
                 print("[DEBUG] MLMultiArray 변환 실패")
@@ -84,37 +149,10 @@ class SoundClassifier: ObservableObject {
                 print("[DEBUG] 예측된 확률: \(probDict)")
                 self.probabilities = probDict
             }
-            // 사용한 22050개 샘플 제거
+            // 사용한 샘플 제거
             accumulatedBuffer.removeFirst(inputLength)
             print("[DEBUG] accumulatedBuffer 길이 제거 후: \(accumulatedBuffer.count)")
         }
-    }
-
-    // 오디오 버퍼(PCM)를 MLMultiArray로 변환 (모델 입력에 필요한 형태)
-    private func bufferToMLMultiArray(buffer: AVAudioPCMBuffer) -> MLMultiArray? {
-        let needed = inputLength
-        // 첫 번째 채널 데이터 획득
-        guard let channelData = buffer.floatChannelData?[0] else {
-            print("[DEBUG] 채널 데이터 없음")
-            return nil
-        }
-        let frameLength = Int(buffer.frameLength)
-        print("[DEBUG] bufferToMLMultiArray - frameLength: \(frameLength)")
-        // MLMultiArray 생성 (입력 크기 맞춤)
-        guard let array = try? MLMultiArray(shape: [NSNumber(value: needed)], dataType: .float32) else {
-            print("[DEBUG] MLMultiArray 생성 실패")
-            return nil
-        }
-        // 오디오 데이터를 복사, 부족하면 0으로 패딩
-        for i in 0..<needed {
-            if i < frameLength {
-                array[i] = NSNumber(value: channelData[i])
-            } else {
-                array[i] = 0
-            }
-        }
-        print("[DEBUG] MLMultiArray 변환 완료")
-        return array
     }
 
     // float 배열을 MLMultiArray로 변환하는 오버로드 함수
@@ -151,4 +189,4 @@ class SoundClassifier: ObservableObject {
             classLabels[2]: probs[2]
         ]
     }
-} 
+}
