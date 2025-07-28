@@ -59,7 +59,6 @@ struct RecordingGuideView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, geometry.safeAreaInsets.bottom + 80)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
             .background(
                 LinearGradient(
                     stops: [

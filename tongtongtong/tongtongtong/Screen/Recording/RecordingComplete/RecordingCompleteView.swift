@@ -19,7 +19,6 @@ struct RecordingCompleteView: View {
                 VStack(spacing: 13) {
                     Text("녹음 완료")
                         .font(.system(size: UIConstants.titleFontSize, weight: .bold))
-                        .kerning(0.4)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                     Text("소리를 확인하고 분석을 시작하세요.")

@@ -8,4 +8,4 @@
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 
-BASE_URL = https:/$()/www.singyupark.cloud:9001
+BASE_URL = https:/$()/www.singyupark.cloud:9002
