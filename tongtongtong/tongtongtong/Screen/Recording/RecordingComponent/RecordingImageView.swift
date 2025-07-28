@@ -8,8 +8,7 @@ struct RecordingImageView: View {
         ZStack {
             RippleCirclesView(
                 color: .white.opacity(0.7),
-                count: 2,
-                duration: 2.5,
+                count: 1,
                 spacing: 1.25
             )
             
