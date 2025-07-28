@@ -51,7 +51,7 @@ class AudioLevelMonitor: ObservableObject {
             DispatchQueue.main.async {
                 if avgPower > self.threshold && !self.isInCooldown {
                     let bufferToClassify: AVAudioPCMBuffer
-                    if buffer.format.sampleRate != 22050 {
+                    if buffer.format.sampleRate != 16000 {
                         if let downsampled = self.downsampleBufferTo16kHz(buffer, originalFormat: format) {
                             bufferToClassify = downsampled
                         } else {

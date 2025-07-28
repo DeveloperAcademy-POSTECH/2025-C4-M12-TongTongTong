@@ -5,7 +5,9 @@ class WatermelonAPIService {
     static let shared = WatermelonAPIService()
     
     private let baseURL: String = {
-        Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String ?? ""
+        let url = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String ?? ""
+        print("[DEBUG] BASE_URL: \(url)")
+        return url
     }()
     
     private init() {}
@@ -13,25 +15,36 @@ class WatermelonAPIService {
     // MARK: - 서버 상태 확인
     func checkServerHealth(completion: @escaping (Result<ServerHealthResponse, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/health") else {
+            print("[DEBUG] Invalid health URL: \(baseURL)/health")
             completion(.failure(APIError.invalidURL))
             return
         }
         
+        print("[DEBUG] Checking server health at: \(url)")
+        
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
+                print("[DEBUG] Health check error: \(error)")
                 completion(.failure(error))
                 return
             }
             
+            if let httpResponse = response as? HTTPURLResponse {
+                print("[DEBUG] Health check response status: \(httpResponse.statusCode)")
+            }
+            
             guard let data = data else {
+                print("[DEBUG] No data received from health check")
                 completion(.failure(APIError.noData))
                 return
             }
             
             do {
                 let healthResponse = try JSONDecoder().decode(ServerHealthResponse.self, from: data)
+                print("[DEBUG] Health check successful: \(healthResponse)")
                 completion(.success(healthResponse))
             } catch {
+                print("[DEBUG] Health check decode error: \(error)")
                 completion(.failure(error))
             }
         }.resume()
@@ -44,9 +57,12 @@ class WatermelonAPIService {
     ///   - completion: Called with PredictionResponse on success, or Error on failure.
     func predictWatermelon(audioFileURL: URL, completion: @escaping (Result<PredictionResponse, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/predict") else {
+            print("[DEBUG] Invalid predict URL: \(baseURL)/predict")
             completion(.failure(APIError.invalidURL))
             return
         }
+        
+        print("[DEBUG] Making prediction request to: \(url)")
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -58,6 +74,8 @@ class WatermelonAPIService {
             let fileData = try Data(contentsOf: audioFileURL)
             let fileName = audioFileURL.lastPathComponent
             let mimeType = getMimeType(for: audioFileURL.pathExtension)
+            
+            print("[DEBUG] Uploading file: \(fileName), size: \(fileData.count) bytes, mime: \(mimeType)")
             
             var body = Data()
             
@@ -72,21 +90,32 @@ class WatermelonAPIService {
             
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
+                    print("[DEBUG] Prediction request error: \(error)")
                     completion(.failure(error))
                     return
                 }
                 
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("[DEBUG] Prediction response status: \(httpResponse.statusCode)")
+                }
+                
                 guard let data = data else {
+                    print("[DEBUG] No data received from prediction request")
                     completion(.failure(APIError.noData))
                     return
                 }
                 
+                print("[DEBUG] Received data size: \(data.count) bytes")
+                
                 do {
                     let predictionResponse = try JSONDecoder().decode(PredictionResponse.self, from: data)
+                    print("[DEBUG] Prediction successful: \(predictionResponse)")
                     completion(.success(predictionResponse))
                 } catch {
+                    print("[DEBUG] Prediction decode error: \(error)")
                     // 에러 응답 파싱 시도
                     if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                        print("[DEBUG] Server error response: \(errorResponse)")
                         completion(.failure(APIError.serverError(errorResponse.error)))
                     } else {
                         completion(.failure(error))
@@ -95,6 +124,7 @@ class WatermelonAPIService {
             }.resume()
             
         } catch {
+            print("[DEBUG] File reading error: \(error)")
             completion(.failure(error))
         }
     }
@@ -171,6 +201,45 @@ class WatermelonAPIService {
         }.resume()
     }
     
+    // MARK: - 서버 연결 테스트
+    func testServerConnection(completion: @escaping (Bool) -> Void) {
+        print("[DEBUG] Testing server connection...")
+        
+        // 먼저 서버 상태 확인
+        checkServerHealth { result in
+            switch result {
+            case .success(let healthResponse):
+                print("[DEBUG] Server is healthy: \(healthResponse)")
+                completion(true)
+            case .failure(let error):
+                print("[DEBUG] Server health check failed: \(error)")
+                
+                // 간단한 ping 테스트
+                guard let url = URL(string: "\(self.baseURL)/health") else {
+                    print("[DEBUG] Invalid URL for ping test")
+                    completion(false)
+                    return
+                }
+                
+                var request = URLRequest(url: url)
+                request.timeoutInterval = 10.0
+                
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let error = error {
+                        print("[DEBUG] Ping test failed: \(error)")
+                        completion(false)
+                    } else if let httpResponse = response as? HTTPURLResponse {
+                        print("[DEBUG] Ping test response: \(httpResponse.statusCode)")
+                        completion(httpResponse.statusCode == 200)
+                    } else {
+                        print("[DEBUG] Ping test: no valid response")
+                        completion(false)
+                    }
+                }.resume()
+            }
+        }
+    }
+    
     // MARK: - Helper Methods
     private func getMimeType(for fileExtension: String) -> String {
         switch fileExtension.lowercased() {
@@ -200,6 +269,19 @@ enum APIError: Error, LocalizedError {
             return "데이터를 받지 못했습니다."
         case .serverError(let message):
             return "서버 에러: \(message)"
+        }
+    }
+}
+
+// MARK: - SSL 인증 우회 Delegate (개발용)
+class CustomSessionDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if let trust = challenge.protectionSpace.serverTrust {
+            completionHandler(.useCredential, URLCredential(trust: trust))
+        } else {
+            completionHandler(.cancelAuthenticationChallenge, nil)
         }
     }
 }

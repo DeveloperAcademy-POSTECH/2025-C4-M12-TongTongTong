@@ -3,9 +3,9 @@ import Foundation
 
 class ResultViewModel: ObservableObject {
     @Published var resultState = ResultState()
-    
+
     init() {}
-    
+
     func predict(using audioFile: URL) {
         WatermelonAPIService.shared.predictWatermelon(audioFile: audioFile) { [weak self] result in
             switch result {
@@ -13,7 +13,7 @@ class ResultViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     let predictionClass = prediction.prediction
                     var resultString = "알 수 없음"
-                    
+
                     switch predictionClass {
                     case 0:
                         resultString = "안 익음"
@@ -24,7 +24,7 @@ class ResultViewModel: ObservableObject {
                     default:
                         break
                     }
-                    
+
                     self?.resultState.update(result: resultString, confidence: prediction.confidence * 100)
                 }
             case .failure(let error):
