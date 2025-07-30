@@ -3,16 +3,6 @@ import SwiftUI
 struct ResultAnalysisView: View {
     @ObservedObject var state: ResultState
     
-    var ripeScore: Double {
-        let score: Double
-        if state.confidence < 0.5 {
-            score = (state.confidence / 0.5) * 2 + 1
-        } else {
-            score = ((state.confidence - 0.5) / 0.5) * 2 + 3
-        }
-        return min(max(score, 1), 5)
-    }
-    
     var body: some View {
         VStack {
             HStack {
@@ -22,13 +12,13 @@ struct ResultAnalysisView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white.opacity(0.8))
                     
-                    Text(String(format: "%.1f", ripeScore))
+                    Text("\(state.ripeness.score)점")
                         .font(.system(size: 24, weight: .semibold))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                     
                     StarRatingView(
-                        rating: ripeScore
+                        rating: Double(state.ripeness.starRating)
                     )
                 }
                 
@@ -44,7 +34,7 @@ struct ResultAnalysisView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white.opacity(0.8))
                     
-                    Text(String(state.result)) // 모델에서 Hz 보내도록 변경하면 바꿀 예정
+                    Text(state.result)
                         .font(.system(size: 24, weight: .semibold))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
@@ -60,8 +50,11 @@ struct ResultAnalysisView: View {
 }
 
 #Preview {
-    let state = ResultState()
-    state.confidence = 0.737
-    state.result = "높음"
-    return ResultAnalysisView(state: state)
+    ResultAnalysisView(state: {
+        let state = ResultState()
+        state.result = "잘 익음"
+        state.confidence = 0.9
+        return state
+    }())
+    .background(Color.green)
 }
