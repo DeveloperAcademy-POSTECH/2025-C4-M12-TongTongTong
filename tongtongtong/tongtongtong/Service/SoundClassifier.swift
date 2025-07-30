@@ -135,20 +135,20 @@ class SoundClassifier: ObservableObject {
         return array
     }
 
-    // 시뮬레이터/테스트 환경용 더미 분류 함수 (모델 없이 랜덤으로 값 생성)
-    func classifyDummySound() {
-        let randomTarget = classLabels.randomElement() ?? "etc"
-        // 3개 클래스 확률을 랜덤하게 생성 (합계 1)
-        var probs = [Double.random(in: 0.0...1.0), Double.random(in: 0.0...1.0), Double.random(in: 0.0...1.0)]
-        let sum = probs.reduce(0, +)
-        probs = probs.map { $0 / sum }
-        print("[DEBUG] 더미 분류 타겟: \(randomTarget)")
-        print("[DEBUG] 더미 확률: \([classLabels[0]: probs[0], classLabels[1]: probs[1], classLabels[2]: probs[2]])")
-        self.target = randomTarget
-        self.probabilities = [
-            classLabels[0]: probs[0],
-            classLabels[1]: probs[1],
-            classLabels[2]: probs[2]
-        ]
-    }
-} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
