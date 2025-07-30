@@ -17,24 +17,7 @@ class ResultState: ObservableObject {
             return .unripe
         }
     }
-    
-    enum WatermelonRipeness {
-        case ripe
-        case unripe
-        case overripe
-        
-        var imageName: String {
-            switch self {
-            case .ripe:
-                return "ResultRipe"
-            case .unripe:
-                return "ResultUnripe"
-            case .overripe:
-                return "ResultOverripe"
-            }
-        }
-    }
-    
+
     func update(result: String, confidence: Double) {
         print("[DEBUG] update(result:confidence:) - 받아온 result: \(result), confidence: \(confidence)")
         self.result = result
@@ -60,4 +43,44 @@ class ResultState: ObservableObject {
         }
         print("[DEBUG] cycleResultForDebug() - new result: \(result)")
     }
+}
+
+enum WatermelonRipeness {
+    case ripe
+    case unripe
+    case overripe
+
+    var imageName: String {
+        switch self {
+        case .ripe:
+            return "ResultRipe1"
+        case .unripe:
+            return "ResultUnripe1"
+        case .overripe:
+            return "ResultOverripe1"
+        }
+    }
+
+    var starRating: Int {
+        switch self {
+        case .ripe:
+            return 3
+        case .unripe:
+            return 1
+        case .overripe:
+            return 2
+        }
+    }
+
+    var score: Int {
+        switch self {
+        case .ripe:
+            return 95
+        case .unripe:
+            return 30
+        case .overripe:
+            return 60
+        }
+    }
+
 }
