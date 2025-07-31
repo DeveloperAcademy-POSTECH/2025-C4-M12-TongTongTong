@@ -53,11 +53,11 @@ enum WatermelonRipeness {
     var imageName: String {
         switch self {
         case .ripe:
-            return "ResultRipe1"
+            return "ResultRipe"
         case .unripe:
-            return "ResultUnripe1"
+            return "ResultUnripe"
         case .overripe:
-            return "ResultOverripe1"
+            return "ResultOverripe"
         }
     }
 
