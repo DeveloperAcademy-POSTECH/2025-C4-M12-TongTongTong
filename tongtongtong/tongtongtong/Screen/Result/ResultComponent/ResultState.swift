@@ -61,14 +61,14 @@ enum WatermelonRipeness {
         }
     }
 
-    var starRating: Int {
+    var starRating: Double {
         switch self {
         case .ripe:
-            return 3
+            return 4.5
         case .unripe:
             return 1
         case .overripe:
-            return 2
+            return 3
         }
     }
 
