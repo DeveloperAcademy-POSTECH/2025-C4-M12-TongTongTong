@@ -55,12 +55,12 @@
 
 | 이름 | 역할 | GitHub |
 | --- | --- | --- |
-| Bear | iOS Developer | @bear3283 |
-| Brandnew | iOS Developer / Backend Developer | @sing-u8 |
-| Cheshire | iOS Developer / Backend Developer Designer | @cheshire0105 |
-| Leo | iOS Developer | @Juncheoltree |
-| Mosae | Designer | @uvo36 |
-| Yuu | iOS Developer / Backend Developer | @ohcuy |
+| Bear | iOS Developer | [bear3283](https://github.com/bear3283) |
+| Brandnew | iOS Developer / Backend Developer | [sing-u8](https://github.com/sing-u8) |
+| Cheshire | iOS Developer / Backend Developer Designer | [cheshire0105](https://github.com/cheshire0105) |
+| Leo | iOS Developer | [Juncheoltree](https://github.com/Juncheoltree) |
+| Mosae | Designer | [uvo36](https://github.com/uvo36) |
+| Yuu | iOS Developer / Backend Developer | [ohcuy](https://github.com/ohcuy) |
 
 </br>
 
