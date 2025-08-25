@@ -57,13 +57,15 @@
 | --- | --- | --- |
 | Bear | iOS Developer | [bear3283](https://github.com/bear3283) |
 | Brandnew | iOS Developer / Backend Developer | [sing-u8](https://github.com/sing-u8) |
-| Cheshire | iOS Developer / Backend Developer Designer | [cheshire0105](https://github.com/cheshire0105) |
+| Cheshire | iOS Developer / Backend Developer / Designer | [cheshire0105](https://github.com/cheshire0105) |
 | Leo | iOS Developer | [Juncheoltree](https://github.com/Juncheoltree) |
 | Mosae | Designer | [uvo36](https://github.com/uvo36) |
 | Yuu | iOS Developer / Backend Developer | [ohcuy](https://github.com/ohcuy) |
 
 </br>
 
-## 📎 프로젝트 문서
+## 📎 프로젝트 문서 / 관련 링크
 
-[수박 당도 예측 모델 Wiki](https://github.com/sing-u8/Watermelon_ML_Models/wiki)
+[📚 수박 당도 예측 모델 Wiki](https://github.com/sing-u8/Watermelon_ML_Models/wiki)
+
+[🎥 애플 디벨로퍼 아카데미 공식 유튜브 - AIML - Sound | 낭만젊음사랑](https://youtu.be/sRfGhwltogQ?si=r1DLX4h2ZHPhexC-)
